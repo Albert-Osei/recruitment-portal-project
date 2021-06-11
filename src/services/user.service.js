@@ -12,8 +12,6 @@ const findUser = async (email) => {
 
 const loginUser = async (body) => {
     const { email, password } = body;
-    // console.log(email);
-    // console.log(password);
     const user = await findUser(email);
     if (user.length === 0) {
         throw {
@@ -25,7 +23,6 @@ const loginUser = async (body) => {
     }
 
     const { password: dbPassword, role_id, firstname, lastname, id } = user[0];
-    // console.log(dbPassword);
     const userPassword = bcrypt.compareSync(password, dbPassword); // true
     if (!userPassword) {
         throw {
@@ -73,7 +70,7 @@ const loginUser = async (body) => {
 };
 
 const createUser = async (body) => {
-    const { firstname, lastname, email, phonenumber, password } = body;
+    const { firstname, lastname, email, phonenumber, password, confirm_password } = body;
 
     const user = await findUser(email);
     if (user.length > 0) {
@@ -90,12 +87,12 @@ const createUser = async (body) => {
 
     const roles = await runQuery(getAllRoles);
     const userRole = roles.find((element) => element.type === "user");
-    const response = await runQuery(addUser, [firstname, lastname, email, phonenumber, hash, userRole.id]);
+    const response = await runQuery(addUser, [firstname, lastname, email, phonenumber, hash, confirm_password, userRole.id]);
 
     return {
         code: 201,
         status: "success",
-        message: "New user added successfully",
+        message: `Hello! ${body.email} you have been signed up, have fun!`,
         data: response[0],
     };
 };

@@ -18,6 +18,7 @@ SELECT id, type  FROM roles
  * - email
  * - phonenumber
  * - password
+ * - confirm_password
  * - role_id
  *
  */
@@ -28,10 +29,11 @@ INSERT INTO
     lastname,
     email, 
     phonenumber,
-    password, 
+    password,
+    confirm_password,
     role_id
   ) 
-VALUES ($1,$2,$3,$4,$5,$6) RETURNING id, firstname, lastname, email, role_id`;
+VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id, firstname, lastname, email, role_id`;
 
 module.exports = {
     addUser,

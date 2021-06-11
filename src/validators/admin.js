@@ -2,19 +2,20 @@ const Joi = require("joi");
 
 const { baseValidatorForBody, baseValidatorForParams } = require("./index");
 
-const validateUserSignup = (req, res, next) => {
+const validateAdminSignup = (req, res, next) => {
     const schema = Joi.object({
-        firstname: Joi.string().required(),
-        lastname: Joi.string().required(),
+        name: Joi.string().required(),
+        email: Joi.string().required(),
         phonenumber: Joi.string().required(),
-        email: Joi.string().email().required(),
+        country: Joi.string().required(),
+        address: Joi.string().required(),
         password: Joi.string().required(),
-        confirm_password: Joi.string().required(),
+        image_url: Joi.string(),
     });
     baseValidatorForBody(schema, req, res, next);
 };
 
-const validateUserLogin = (req, res, next) => {
+const validateAdminLogin = (req, res, next) => {
     const schema = Joi.object({
         email: Joi.string().email().required(),
         password: Joi.string().required(),
@@ -31,6 +32,6 @@ const validateId = (req, res, next) => {
 
 module.exports = {
     validateId,
-    validateUserLogin,
-    validateUserSignup,
+    validateAdminLogin,
+    validateAdminSignup,
 };
