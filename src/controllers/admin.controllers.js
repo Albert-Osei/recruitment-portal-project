@@ -18,9 +18,20 @@ const createAdmin = async (req, res, next) => {
     }
 };
 
+const updateProfile = async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        const response = await AdminService.updateProfile(id, req.body)
+        return res.status(response.code).json(response);
+    } catch (error) {
+        next(error)
+    }
+}
+
 
 
 module.exports = {
     loginAdmin,
     createAdmin,
+    updateProfile,
 }

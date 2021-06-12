@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const config = require("../config/env/index");
 const { runQuery } = require("../config/database.config");
-const { findAdminByEmail, addAdmin, getAdminRole } = require("../queries/admin");
+const { findAdminByEmail, addAdmin, getAdminRole, updateProfileQuery, findAdminById } = require("../queries/admin");
 
 
 const findAdmin = async (email) => {
@@ -94,10 +94,33 @@ const createAdmin = async (body) => {
     };
 };
 
+const updateProfile = async(id, body) => {
+    const { name, phonenumber, country, address, image_url } = body;
+
+    const profile = await runQuery(findAdminById, [id]);
+
+    if (profile.length === 0) {
+        throw{
+            status: "error",
+            message: "Admin profile not found",
+            code: 400,
+            data: null
+        };
+    }
+    const response = await runQuery(updateProfileQuery, [name, phonenumber, country, address, image_url, id]);
+    return {
+        status: "success",
+        message: "Sparkles! Admin profile has been edited successfully",
+        code: 200,
+        data: response[0],
+    }
+}
+
 
 
 module.exports = {
     loginAdmin,
     createAdmin,
     findAdmin,
+    updateProfile,
 };
