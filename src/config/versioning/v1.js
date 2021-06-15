@@ -3,6 +3,7 @@ const api = express.Router();
 const forms = require("../../routes/form");
 const users = require("../../routes/user");
 const admin = require("../../routes/admin");
+const quiz = require("../../routes/quiz");
 
 api.get("/", (req, res) =>
     res.status(200).json({
@@ -14,6 +15,7 @@ api.get("/", (req, res) =>
 api.use('/forms', forms);
 api.use('/users', users);
 api.use('/admin', admin);
+api.use('/quiz', quiz);
 
 
 
