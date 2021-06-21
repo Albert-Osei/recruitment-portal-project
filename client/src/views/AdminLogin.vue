@@ -1,18 +1,18 @@
 <template>
   <div class="adminlogin">
     <div class="desktop-background">
-      <img src="../assets/desktop_background.svg" alt="">
+      <img src="../assets/desktop-background.svg" alt="">
     </div>
-    <form action="" class="login-box">
+    <form @submit.prevent="postData" method="post" class="login-box">
       <div class="logo">
         <img src="../assets/logo.svg" alt="enyata logo" />
       </div>
       <h2 class="login-header">Admin Log In</h2>
       <label for="email">Email Address</label>
-      <input class="emailfield" type="email" name="email" />
+      <input class="emailfield" type="email" name="email" v-model="posts.email"/>
       <label for="password">Password</label>
-      <input class="passwordfield" type="password" name="password" />
-      <button class="btn">Sign In</button>
+      <input class="passwordfield" type="password" name="password" v-model="posts.password"/>
+      <button class="btn" type="submit">Sign In</button>
     </form>
     
   </div>
@@ -20,17 +20,39 @@
 
 <script>
 // @ is an alias to /src
+import Vue from 'vue'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
 
 
 export default {
   name: 'AdminLogin', 
+  data(){
+    return {
+      posts:{
+        email: null,
+        password: null
+      }
+    }
+  },
+  methods:{
+    postData(){
+     this.axios.post("http://localhost:9090/api/v1/admin/login", this.posts)
+     .then((result) => {
+       console.warn(result)
+     })
+      this.$router.push('/profile')
+    }
+    
+  }
 }
 </script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400&display=swap');
 
-*, html {
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;

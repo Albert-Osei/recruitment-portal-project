@@ -4,6 +4,7 @@ const forms = require("../../routes/form");
 const users = require("../../routes/user");
 const admin = require("../../routes/admin");
 const quiz = require("../../routes/quiz");
+const cors = require('cors');
 
 api.get("/", (req, res) =>
     res.status(200).json({
@@ -12,6 +13,7 @@ api.get("/", (req, res) =>
     })
 );
 
+api.use(cors());
 api.use('/forms', forms);
 api.use('/users', users);
 api.use('/admin', admin);

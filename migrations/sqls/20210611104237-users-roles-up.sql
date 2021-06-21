@@ -7,3 +7,4 @@ CREATE TABLE "roles" (
 );
 
 INSERT INTO roles(type) VALUES('admin');
+INSERT INTO roles(type) VALUES('user');

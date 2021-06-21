@@ -2,7 +2,7 @@ const Joi = require("joi");
 
 const { baseValidatorForBody } = require("./index");
 
-const validateQuizForm = (req, res, next) => {
+const validateNewQuiz = (req, res, next) => {
     const schema = Joi.object({
         question: Joi.string().required,
         alternatives: [
@@ -29,5 +29,5 @@ const validateQuizForm = (req, res, next) => {
 }
 
 module.exports = {
-    validateQuizForm
+    validateNewQuiz
 }
