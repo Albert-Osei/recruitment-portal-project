@@ -5,7 +5,7 @@
         <img src="../assets/logo.svg" alt="Enyata's Logo" />
       </div>
       <h2 class="applicant-signup">Applicant Sign Up</h2>
-      <form @submit.prevent="signupUser" method="post" id="signupForm">
+      <form @submit.prevent="submit" id="signupForm">
         <div class="form-container">
           <div class="input-container">
             <label for="firstname" class="label">First Name</label>
@@ -26,10 +26,9 @@
           <div class="input-container">
             <label for="password" class="label">Password</label>
             <input v-model="info.password" type="password" id="pword" name="password" class="inputs" required="true"/>
-            <i><img src="../assets/eye.svg" alt="toggle-eye" class="eye"/></i>
           </div>
           <div class="input-container">
-            <label for="" class="label">Confirm Passwrod</label>
+            <label for="confirm_password" class="label">Confirm Passwrod</label>
             <input v-model="info.confirm_password" type="password" id="confirm_pword" name="confirm_password" class="inputs" required="true"/>
             <span id="message"></span>
           </div>
@@ -47,42 +46,47 @@
         </div>
       </div>
     </div>
+    <p v-if="showError" id="error">User already exists</p>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-Vue.use(VueAxios, axios)
+import { mapActions } from "vuex";
 
 export default {
-  name: "signup",
+  name: "Signup",
   data() {
     return {
         info:{
-            firstname: null,
-            lastname: null,
-            email: null,
-            phonenumber: null,
-            password: null,
-            confirm_password: null,
-        }   
+            firstname: "",
+            lastname: "",
+            email: "",
+            phonenumber: "",
+            password: "",
+            confirm_password: "",
+        },
+        showError: false   
     };
   },
   methods:{
-    signupUser(){
-        this.axios.post("http://localhost:9090/api/v1/users/signup", this.info)
-        .then((result) => {
-            console.warn(result)
-        })
-    }
-  }
+    ...mapActions(["Signup"]),
+    async submit() {
+      try {
+        await this.Signup(this.info);
+        this.$router.push("/login");
+        this.showError = false
+      } catch (error) {
+        this.showError = true
+      }
+    },   
+  },
 
 };
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400&display=swap');
+
 #signup {
   background: #ffffff;
   height: 100vh;
@@ -145,6 +149,7 @@ export default {
 .signup-btn {
   background: #7557d3;
   border-radius: 4px;
+  border: none;
   width: 520px;
   height: 50px;
   font-family: Lato;

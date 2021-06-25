@@ -13,6 +13,10 @@ INSERT INTO
   ) 
 VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id, firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa, user_image`;
 
+const getAllForms = `
+SELECT * FROM forms
+`;
+
 const findFormByEmail = `
 SELECT firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa FROM forms WHERE email=$1
 `;
@@ -28,6 +32,7 @@ RETURNING id, firstname, lastname, email, date_of_birth, address, university, co
 
 
 module.exports = {
+    getAllForms,
     addFormQuery,
     updateFormQuery,
     findFormByEmail,

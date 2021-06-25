@@ -4,7 +4,7 @@ const forms = require("../../routes/form");
 const users = require("../../routes/user");
 const admin = require("../../routes/admin");
 const quiz = require("../../routes/quiz");
-const cors = require('cors');
+// const cors = require('cors');
 
 api.get("/", (req, res) =>
     res.status(200).json({
@@ -13,7 +13,23 @@ api.get("/", (req, res) =>
     })
 );
 
-api.use(cors());
+// api.use(cors());
+api.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "http://localhost:8080");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, content-type, Accept, Authorization"
+    );
+    res.header("Access-Control-Allow-Credentials", true);
+    if (req.method === "OPTIONS") {
+        res.header(
+            "Access-Control-Allow-Methods",
+            "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+        );
+        return res.status(200).json({});
+    }
+    next();
+});
 api.use('/forms', forms);
 api.use('/users', users);
 api.use('/admin', admin);

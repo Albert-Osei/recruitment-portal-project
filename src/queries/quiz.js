@@ -1,24 +1,33 @@
+const getBatchId = `
+SELECT id, type  FROM batch
+`;
+
 const addQuizQuery = `
 INSERT INTO 
-  quizes(
+  quiz(
     question, 
-    alternatives, 
-    file_url
+    option_a,
+    option_b,
+    option_c,
+    option_d, 
+    answer,
+    file_url,
+    batch_id
   ) 
-VALUES ($1,$2,$3,$4,$5,$6) RETURNING id, question, alternatives, file_url`;
-
+VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id, question, option_a, option_b, option_c, option_d, answer, file_url, batch_id`;
 
 const findQuizById = `
-SELECT id, question, alternatives, file_url  FROM quizes WHERE id=$1
+SELECT id, question, option_a, option_b, option_c, option_d, answer, file_url  FROM quiz WHERE id=$1
 `;
 
 const updateQuizQuery = `
-UPDATE quizes SET question=$1, alternatives=$2, file_url=$6, created_at=NOW(), updated_at=NOW() WHERE id=$9 
-RETURNING id, question, alternatives[optionA, optionB, optionC, optionD], file_url, created_at, updated_at`;
+UPDATE quiz SET question=$1, option_a=$2, option_b=$3, option_c=$4, option_d=$5, answer=$6, file_url=$7, created_at=NOW(), updated_at=NOW() WHERE id=$8 
+RETURNING id, question, option_a, option_b, option_c, option_d, answer, file_url, created_at, updated_at`;
 
 
 module.exports = {
-    addQuizQuery,
-    updateQuizQuery,
-    findQuizById
+  getBatchId,
+  addQuizQuery,
+  updateQuizQuery,
+  findQuizById
 };

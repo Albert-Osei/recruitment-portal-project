@@ -3,29 +3,22 @@
     <div class="login-layout-container">
       <div class="login-body-container">
         <div class="logo-holder">
-          <img src="../assets/enyata-logo.svg" alt="" />
+          <img src="../assets/logo.svg" alt="" />
         </div>
         <h2 class="applicant-login">Applicant Log In</h2>
-        <form action="api/v1/users/login" @submit="loginUser" method="post">
+        <form @submit.prevent="submit">
           <div class="form-container">
             <div class="input-container">
-              <label for="" class="label">Email Address</label>
-              <input type="text" id="email" name="email" class="inputs" />
+              <label for="email" class="label">Email Address</label>
+              <input type="email" id="email" name="email" class="inputs" v-model="info.email"/>
             </div>
             <div class="input-container">
-              <label for="" class="label">Password</label>
-              <input
-                type="password"
-                id="pword"
-                name="password"
-                class="inputs"
-                placeholder=""
-              />
-              <i><img src="../assets/eye.svg" alt="toggle-eye" class="eye"/></i>
+              <label for="password" class="label">Password</label>
+              <input type="password" id="pword" name="password" class="inputs" v-model="info.password"/>
             </div>
           </div>
           <div class="login-btn-container">
-            <button class="login-btn">Login</button>
+            <button type="submit" class="login-btn">Login</button>
           </div>
         </form>
         <div class="redirect">
@@ -37,45 +30,39 @@
           </div>
           <div class="forgot-password"><p>Forgot Password?</p></div>
         </div>
+        <p v-if="showError" id="error">Email or Password is incorrect</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
-  name: "login",
-
+  name: "Login",
+  data(){
+    return {
+      info: {
+        email: "",
+        password: "",
+      },
+      showError: false
+    };
+  },
   methods: {
-    async loginUser(e) {
-      e.preventDefault();
-
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("pword").value;
-
-      const data = JSON.stringify({ email, password });
-
-      const response = await fetch("/api/v1/users/login", {
-        method: "POST",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-          "Content-type": "application/json",
-          Accept: "application/json",
-        },
-        body: data,
-      });
-      console.log(response);
-      const userDetails = await response.json();
-      if (response.status === 200) {
-        alert("Successfully login in");
-        localStorage.setItem("token", userDetails.token);
-        window.location.href = "/";
-      } else {
-        alert("error occured: Invalid username or password");
+    ...mapActions(["LogIn"]),
+    async submit() {
+      const User = new FormData();
+      User.append("email", this.info.email);
+      User.append("password", this.info.password);
+      try {
+        await this.LogIn(User);
+        this.$router.push("/forms");
+        this.showError = false
+      } catch (error) {
+        this.showError = true
       }
-      console.log(userDetails);
     },
   },
 };

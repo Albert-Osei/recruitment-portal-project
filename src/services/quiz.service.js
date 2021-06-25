@@ -3,16 +3,17 @@ const {
     addQuizQuery,
     updateQuizQuery,
     findQuizById,
+    getBatchId,
 } = require("../queries/quiz");
 
 
 
 
-const addQuiz = async (body) => {
-    const { question, alternatives, file_url  } = body;
+const addQuiz = async (body, id) => {
+    const { question, option_a, option_b, option_c, option_d, answer, file_url } = body;
 
     const quiz = await runQuery(findQuizById, [id]);
-    if (quiz.length > 0) {
+    if (quiz.length < 0) {
         throw {
             status: "error",
             message: "question already used",
@@ -20,10 +21,17 @@ const addQuiz = async (body) => {
             data: null,
         };
     }
+    const batches = await runQuery(getBatchId);
+    const batch_id = batches.find((element) => element.type === "BatchId1");
     const response = await runQuery(addQuizQuery, [
         question,
-        alternatives,
-        file_url
+        option_a,
+        option_b,
+        option_c,
+        option_d,
+        answer,
+        file_url,
+        batch_id.id,
     ]);
 
     return {
@@ -35,7 +43,7 @@ const addQuiz = async (body) => {
 };
 
 const updateQuiz = async (body, id) => {
-    const { question, alternatives, file_url } = body;
+    const { question, option_a, option_b, option_c, option_d, answer, file_url } = body;
 
     const quiz = await runQuery(findQuizById, [id]);
 
@@ -49,7 +57,11 @@ const updateQuiz = async (body, id) => {
     };
     const response = await runQuery(updateQuizQuery, [
         question,
-        alternatives,
+        option_a,
+        option_b,
+        option_c,
+        option_d,
+        answer,
         file_url
     ]);
     return {

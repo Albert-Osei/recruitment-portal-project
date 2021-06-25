@@ -30,6 +30,7 @@ const validateId = (req, res, next) => {
     baseValidatorForParams(schema, req, res, next);
 };
 
+
 module.exports = {
     validateId,
     validateAdminLogin,

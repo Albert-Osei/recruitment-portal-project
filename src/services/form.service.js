@@ -3,10 +3,19 @@ const {
     addFormQuery,
     updateFormQuery,
     findFormByEmail,
+    getAllForms
 } = require("../queries/form");
 
 
-
+const getForms = async () => {
+    const forms = await runQuery(getAllForms);
+    return {
+        status: 'success',
+        code: 200,
+        message: 'Forms fetched successfully',
+        data: forms
+    }
+}
 
 const addForm = async (body) => {
     const { firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa, user_image } = body;
@@ -75,6 +84,7 @@ const updateForm = async (body, id) => {
 
 
 module.exports = {
+    getForms,
     addForm,
     updateForm,
 };

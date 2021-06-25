@@ -3,50 +3,53 @@
     <div class="desktop-background">
       <img src="../assets/desktop-background.svg" alt="">
     </div>
-    <form @submit.prevent="postData" method="post" class="login-box">
+    <form @submit.prevent="submit" class="login-box">
       <div class="logo">
         <img src="../assets/logo.svg" alt="enyata logo" />
       </div>
       <h2 class="login-header">Admin Log In</h2>
       <label for="email">Email Address</label>
-      <input class="emailfield" type="email" name="email" v-model="posts.email"/>
+      <input class="emailfield" type="email" name="email" v-model="form.email"/>
       <label for="password">Password</label>
-      <input class="passwordfield" type="password" name="password" v-model="posts.password"/>
+      <input class="passwordfield" type="password" name="password" v-model="form.password"/>
       <button class="btn" type="submit">Sign In</button>
     </form>
-    
+    <p v-if="showError" id="error">Email or Password is incorrect</p>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Vue from 'vue'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-Vue.use(VueAxios, axios)
+import { mapActions } from "vuex";
 
 
 export default {
   name: 'AdminLogin', 
   data(){
     return {
-      posts:{
-        email: null,
-        password: null
-      }
-    }
+      form:{
+        email: "",
+        password: "",
+      },
+      showError: false
+    };
   },
   methods:{
-    postData(){
-     this.axios.post("http://localhost:9090/api/v1/admin/login", this.posts)
-     .then((result) => {
-       console.warn(result)
-     })
-      this.$router.push('/profile')
-    }
-    
-  }
-}
+    ...mapActions(["AdminLogin"]),
+    async submit() {
+      const Admin = new FormData();
+      Admin.append("email", this.form.email);
+      Admin.append("password", this.form.password);
+      try {
+        await this.AdminLogin(Admin);
+        this.$router.push("/assessment");
+        this.showError = false
+      } catch (error) {
+        this.showError = true
+      }
+    },   
+  },
+};
 </script>
 
 <style>
