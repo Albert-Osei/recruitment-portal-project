@@ -12,31 +12,31 @@
             <div class="fileup col">
               <div class="upload-btn-wrapper">
                 <button class="btns">
-                  <strong>+</strong>
+                  <strong>+ choose file</strong>
                 </button>
                 <input type="file" name="file_path" ref="file" @change="handleFileUpload"/>
               </div>
             </div>
             <div class="col">
-              <label>Link</label>
-              <input type="text" class="form-control"  v-model="link"/>
+              <label for="link">Link</label>
+              <input type="text" name="link" class="form-control"  v-model="link"/>
             </div>
            
           </div>
           
           <div class="row my-4">
             <div class="col">
-              <label>Application closure date</label>
-              <input type="date" class="form-control" v-model="closing_date"/>
+              <label for="closure_date">Application closure date</label>
+              <input type="date" name="closure_date" class="form-control" v-model="closure_date"/>
             </div>
             <div class="col">
-              <label>Batch ID</label>
-              <input type="text" class="form-control"  v-model="batch_id"/>
+              <label for="batch_id">Batch ID</label>
+              <input type="text" name="batch_id" class="form-control"  v-model="batch_id"/>
             </div>
           </div>
           <div class="form-group my-3">
-            <label for>Instructions</label>
-            <textarea class="form-control" name id rows="4" v-model="instruction"></textarea>
+            <label for="instructions">Instructions</label>
+            <textarea class="form-control" name id rows="4" v-model="instructions"></textarea>
           </div>
           <div class="text-center">
             <button class="btn btn-primary" type="submit">Submit</button>
@@ -61,7 +61,7 @@ export default {
       file_path: '',
       batch_id: '',
       link: '',
-      closing_date: '',
+      closure_date: '',
       instructions: ''
     }
   },
@@ -100,22 +100,20 @@ export default {
         formData.append("file_path", this.file_path);
         formData.append("batch_id", this.batch_id);
         formData.append("link", this.link);
-        formData.append("closing_date", this.closing_date);
+        formData.append("closure_date", this.closure_date);
         formData.append("instructions", this.instructions);
         this.CreateApplication(formData);
-        this.file_path = '';
-        this.batch_id =  '';
-        this.link =  '';
-        this.closing_date = "";
-        this.instructions   = "";
+        this.file_path = "";
+        this.batch_id = "";
+        this.link = "";
+        this.closure_date = "";
+        this.instructions = "";
         
     //   } else {
     //     alert("All fields are required");
     //   }
-    }
-    
+    }  
   },
-
 };
 </script>
 
