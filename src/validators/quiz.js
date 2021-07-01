@@ -9,11 +9,8 @@ const validateNewQuiz = (req, res, next) => {
         option_b: Joi.string().required(),
         option_c: Joi.string().required(),
         option_d: Joi.string().required(),
-        answer: Joi.string().required(),
-        file_url: Joi.string(),
-        cloudinary_url: Joi.string(),
-        avatar: Joi.string(),
-
+        file: Joi.string(),
+        answer: Joi.string(),
     });
     baseValidatorForBody(schema, req, res, next);
 }

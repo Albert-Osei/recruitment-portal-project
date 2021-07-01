@@ -9,7 +9,7 @@ SELECT id, role_id, firstname, lastname, password, email FROM users WHERE email=
  * get all roles
  */
 const getAllRoles = `
-SELECT id, type  FROM roles
+SELECT id, type FROM roles
 `;
 /**
  * add user

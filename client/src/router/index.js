@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import SingleDashboard from '../views/SingleDashboard.vue'
 import TakeAssessmentPage from '../views/TakeAssessmentPage.vue'
 import Questions from '../views/Questions.vue'
+import CreateApplication from '../views/CreateApplication.vue'
 
 Vue.use(VueRouter)
 
@@ -67,7 +68,7 @@ const routes = [
   },
   {
     path: '/assessment',
-    name: 'assessment',
+    name: 'Assessment',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -87,6 +88,11 @@ const routes = [
     path: '/questions',
     name: 'Questions',
     component: Questions
+  },
+  {
+    path: '/create-application',
+    name: 'CreateApplication',
+    component: CreateApplication
   },
 ]
 

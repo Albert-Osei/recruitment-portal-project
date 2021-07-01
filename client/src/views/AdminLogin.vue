@@ -42,7 +42,7 @@ export default {
       Admin.append("password", this.form.password);
       try {
         await this.AdminLogin(Admin);
-        this.$router.push("/assessment");
+        this.$router.push("forms");
         this.showError = false
       } catch (error) {
         this.showError = true

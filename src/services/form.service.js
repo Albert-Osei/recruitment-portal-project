@@ -6,14 +6,14 @@ const {
     getAllForms
 } = require("../queries/form");
 
-
+//This is the getForms method
 const getForms = async () => {
     const forms = await runQuery(getAllForms);
     return {
         status: 'success',
         code: 200,
         message: 'Forms fetched successfully',
-        data: forms
+        data: forms,
     }
 }
 

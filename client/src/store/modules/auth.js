@@ -1,16 +1,21 @@
 import axios from 'axios';
+import { getApplications } from '../../../../src/services/application.service';
 
 const state = {
     user: null,
-    allForms: [],
+    forms: [],
     admin: null,
+    assessments: [],
+    applications: [],
     // questions: [],
 };
 const getters = {
-    isAuthenticated: state => !!state.user,
-    StateForms: state => state.allForms,
-    StateUser: state => state.user,
-    StateAdmin: state => state.admin,
+    isAuthenticated: (state) => !!state.user,
+    StateForms: (state) => state.forms,
+    StateUser: (state) => state.user,
+    StateAdmin: (state) => state.admin,
+    StateAssessments: (state) => state.assessments,
+    StateApplications: (state) => state.applications,
 };
 const actions = {
     async Signup({dispatch}, info) {
@@ -22,19 +27,37 @@ const actions = {
         UserInfo.append('password', info.password)
         await dispatch('LogIn', UserInfo)
     },
-    async LogIn({commit}, User) {
-        await axios.post('users/login', User)
-        await commit('setUser', User.get('email'));
+    async LogIn({commit}, user) {
+        await axios.post('users/login', user)
+        await commit('setUser', user.get('email'));
     },
     async CreateForm({dispatch}, form) {
         await axios.post('forms', form)
         await dispatch('GetForms')
     },
-    async GetForms({ commit }, allForms){
-        let response = await axios.get('forms', allForms)
-        console.log(response);
+    async CreateAssessment({dispatch}, assessment) {
+        await axios.post('quiz', assessment)
+        await dispatch('GetAssessments')
+    },
+    async CreateApplication({dispatch}, application) {
+        await axios.post('application', application)
+        await dispatch('GetApplications')
+    },
+
+    // This is the GetForms action to commit the setForms mutation
+    async GetForms({ commit }){
+        let response = await axios.get('forms')
+        // console.log(response)
         commit('setForms', response.data)
-        
+    },
+    async GetAssessments({ commit }){
+        let response = await axios.get('quiz')
+        console.log(response);
+        commit('setAssessments', response.data)     
+    },
+    async getApplications({ commit }){
+        let response = await axios.get('application')
+        commit('setApplications', response.data)
     },
     // async GetQuestions({ commit }, questions){
     //     let response = await axios.get('quiz', questions)
@@ -55,8 +78,9 @@ const mutations = {
     setUser(state, email){
         state.user = email
     },
-    setForms(state, allForms){
-        state.allForms = allForms
+    // This is the setForms mutation
+    setForms(state, forms){
+        state.forms = forms
     },
     setAdmin(state, email){
         state.admin = email
@@ -64,6 +88,12 @@ const mutations = {
     // setQuestions(state, questions) {
     //     state.questions = questions;
     // },
+    setAssessments(state, assessments){
+        state.assessments = assessments
+    },
+    setApplication(state, applications){
+        state.applications = applications
+    },
     LogOut(state){
         state.user = null
         state.allForms = null

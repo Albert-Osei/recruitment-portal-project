@@ -1,16 +1,27 @@
 const { runQuery } = require("../config/database.config");
 const {
+    getAllQuizes,
     addQuizQuery,
     updateQuizQuery,
     findQuizById,
     getBatchId,
 } = require("../queries/quiz");
 
+// This is the getQuiz method
+const getQuizes = async () => {
+    const quiz = await runQuery(getAllQuizes);
+    return {
+        status: 'success',
+        code: 200,
+        message: 'Sparkles! Quiz questions have been fetched successfully',
+        data: quiz
+    }
+}
 
 
 
 const addQuiz = async (body, id) => {
-    const { question, option_a, option_b, option_c, option_d, answer, file_url } = body;
+    const { question, option_a, option_b, option_c, option_d, answer, file } = body;
 
     const quiz = await runQuery(findQuizById, [id]);
     if (quiz.length < 0) {
@@ -30,7 +41,7 @@ const addQuiz = async (body, id) => {
         option_c,
         option_d,
         answer,
-        file_url,
+        file,
         batch_id.id,
     ]);
 
@@ -43,7 +54,7 @@ const addQuiz = async (body, id) => {
 };
 
 const updateQuiz = async (body, id) => {
-    const { question, option_a, option_b, option_c, option_d, answer, file_url } = body;
+    const { question, option_a, option_b, option_c, option_d, answer, file } = body;
 
     const quiz = await runQuery(findQuizById, [id]);
 
@@ -62,7 +73,7 @@ const updateQuiz = async (body, id) => {
         option_c,
         option_d,
         answer,
-        file_url
+        file,
     ]);
     return {
         status: "success",
@@ -73,8 +84,8 @@ const updateQuiz = async (body, id) => {
 };
 
 
-
 module.exports = {
+    getQuizes,
     addQuiz,
     updateQuiz,
 };

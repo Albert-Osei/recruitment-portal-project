@@ -3,7 +3,7 @@
  * - id
  */
 const findAdminById = `
-SELECT id, role_id,  name, email, password  FROM admins WHERE id=$1
+SELECT id, role_id,  name, email, password FROM admins WHERE id=$1
 `;
 
 /**
@@ -17,7 +17,7 @@ SELECT id, role_id, name, password, email FROM admins WHERE email=$1
  * get admin role
  */
 const getAdminRole = `
-SELECT id, type  FROM adminrole
+SELECT id, type FROM adminrole
 `;
 /**
  * add admin

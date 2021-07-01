@@ -23,7 +23,7 @@ SELECT firstname, lastname, email, date_of_birth, address, university, course_of
 
 
 const findFormById = `
-SELECT id, firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa  FROM forms WHERE id=$1
+SELECT id, firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa FROM forms WHERE id=$1
 `;
 
 const updateFormQuery = `

@@ -5,7 +5,7 @@ import store from './store'
 import axios from 'axios';
 
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'http://localhost:9090/api/v1/';
+axios.defaults.baseURL = 'http://localhost:9090/api/v1';
 
 axios.interceptors.response.use(undefined, function (error) {
   if (error) {

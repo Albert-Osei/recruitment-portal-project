@@ -4,6 +4,7 @@ const forms = require("../../routes/form");
 const users = require("../../routes/user");
 const admin = require("../../routes/admin");
 const quiz = require("../../routes/quiz");
+const application = require("../../routes/application");
 // const cors = require('cors');
 
 api.get("/", (req, res) =>
@@ -34,6 +35,7 @@ api.use('/forms', forms);
 api.use('/users', users);
 api.use('/admin', admin);
 api.use('/quiz', quiz);
+api.use('/application', application);
 
 
 
