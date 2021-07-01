@@ -5,7 +5,7 @@
     </div>
     <div class="container col-8">
       <h2 class="my-5">Create Application</h2>
-      <p>{{GetApplications.message}}</p>
+      <!-- <p>{{GetApplications.message}}</p> -->
       <div>
         <form enctype="multipart/form-data" @submit.prevent="submit">
           <div class="row">
@@ -14,7 +14,7 @@
                 <button class="btns">
                   <strong>+</strong>
                 </button>
-                <input type="file" name="file" ref="file" @change="handleFileUpload"/>
+                <input type="file" name="file_path" ref="file" @change="handleFileUpload"/>
               </div>
             </div>
             <div class="col">
@@ -58,7 +58,7 @@ export default {
   },
   data() {
     return {
-      file: '',
+      file_path: '',
       batch_id: '',
       link: '',
       closing_date: '',
@@ -91,19 +91,19 @@ export default {
     ...mapActions(["CreateApplication", "GetApplications"]),
 
     handleFileUpload() {
-      this.file = this.$refs.file.files[0];
+      this.file_path = this.$refs.file.files[0];
     },
 
     submit() {
     //   if (this.isValid) {
         let formData = new FormData();
-        formData.append("file", this.file);
+        formData.append("file_path", this.file_path);
         formData.append("batch_id", this.batch_id);
         formData.append("link", this.link);
         formData.append("closing_date", this.closing_date);
         formData.append("instructions", this.instructions);
         this.CreateApplication(formData);
-        this.file = '';
+        this.file_path = '';
         this.batch_id =  '';
         this.link =  '';
         this.closing_date = "";
