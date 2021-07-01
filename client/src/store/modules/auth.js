@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getApplications } from '../../../../src/services/application.service';
 
 const state = {
     user: null,
@@ -55,7 +54,7 @@ const actions = {
         console.log(response);
         commit('setAssessments', response.data)     
     },
-    async getApplications({ commit }){
+    async GetApplications({ commit }){
         let response = await axios.get('application')
         commit('setApplications', response.data)
     },
@@ -91,7 +90,7 @@ const mutations = {
     setAssessments(state, assessments){
         state.assessments = assessments
     },
-    setApplication(state, applications){
+    setApplications(state, applications){
         state.applications = applications
     },
     LogOut(state){
