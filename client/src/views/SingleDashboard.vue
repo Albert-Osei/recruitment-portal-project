@@ -2,24 +2,7 @@
   <div class="user-dash">
     <!-- <h1>This is a single user {{ $route.params.id }}</h1> -->
     <div class="dashboard-menu">
-      <div class="profile-layout">
-        <div class="profile-picture">
-          <img src="../assets/pic.jpeg" alt="" />
-        </div>
-        <!-- <div
-          v-for="singleuser in gottenform"
-          :key="singleuser.id"
-          :singleuser="singleuser"
-        >
-          <p class="username">{{ singleuser.firstname }}</p>
-          <p>{{ singleuser.email }}</p>
-        </div> -->
-        <div v-if="User" :User="User">
-          <p class="profile-name">Albert Conte</p>
-          <p class="profile-email">{{ User }}</p>
-        </div>
-      </div>
-
+      <UserP />
       <div class="main-menu">
         <div>
           <li class="dash">
@@ -30,14 +13,12 @@
           </li>
           <li class="ass">
             <img src="../assets/assessment.svg" alt="" /><router-link
-              :to="{ name: 'Assessment' }"
+              :to="{ name: 'TakeAssessmentPage' }"
               >Assessment</router-link
             >
           </li>
         </div>
-        <div class="logout-div">
-          <li><img src="../assets/logout.svg" alt="" />Log out</li>
-        </div>
+        <Logout />
       </div>
     </div>
     <div class="dashboard-body-container">
@@ -52,9 +33,11 @@
         <div class="date-status">
           <div class="date-div">
             <p class="date-status-text">Date of Application</p>
-            <p class="pending">09.09.19</p>
+            <p class="pending">{{ getDate(SingleApp.created_at) }}</p>
             <div class="blueline"></div>
-            <p class="update" style="margin-left: 20px;">Days since applied</p>
+            <p class="update" style="margin-left: 20px;">
+              {{ getDiffDate(SingleApp.created_at) }}
+            </p>
           </div>
           <div class="status-div">
             <p class="date-status-text">Application Status</p>
@@ -80,9 +63,11 @@
                 We have 4 days left until the next assessment
               </p>
               <p>Watch this space</p>
-              <button class="ass-btn" disabled="disabled">
-                Take Assessment
-              </button>
+              <router-link :to="{ name: 'TakeAssessmentPage' }"
+                ><button class="ass-btn">
+                  Take Assessment
+                </button></router-link
+              >
             </div>
           </div>
         </div>
@@ -93,29 +78,83 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import moment from "moment";
+import UserP from "@/components/UserP.vue";
+import Logout from "@/components/Logout.vue";
+
 export default {
   name: "SingleDashboard",
+  components: {
+    UserP,
+    Logout,
+  },
 
-  // data() {
-  //   return {
-  //     formdata,
-  //   };
-  // },
+  data() {
+    return {
+      Profile: [],
+      SingleApp: [],
+      files: "",
+    };
+  },
 
   computed: {
-    ...mapGetters({ forms: "StateForms", User: "StateUser" }),
+    ...mapGetters(["getProfile", "StateForms", "StateUser", "getOneApp"]),
     gottenform() {
-      return this.$store.state.auth.forms.data;
+      return this.$store.state.auth.formsUser.data;
     },
+    // isLoggedIn: function() {
+    //   return this.$store.getters.isAuthenticated;
+    // },
   },
 
   created: function() {
-    // a function to call getforms action
     this.GetForms();
   },
 
   methods: {
-    ...mapActions(["GetForms"]),
+    ...mapActions(["GetForms", "fetchProfile", "fetchOneApp"]),
+    getDate(s) {
+      if (s != null) {
+        var datet = s.split("T");
+        // return datet[0];
+        var ans = datet[0];
+        return moment(ans).format("DD.MM.YY");
+      } else {
+        return "Not applied";
+      }
+    },
+    getDiffDate(s) {
+      if (s != null) {
+        var datet = s.split("T");
+        var day = new Date(datet[0]);
+        var datt = new Date();
+        var Difference_In_Time = datt - day.getTime();
+        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+        return `${Math.floor(Difference_In_Days)} days since applied`;
+      } else {
+        return "You have not submitted application yet";
+      }
+    },
+
+    async redirect() {
+      this.$router.push("/");
+    },
+
+    // handleFileUpload() {
+    //   const file = this.$refs.file.files[0];
+    //   this.files = file;
+    // },
+  },
+
+  async mounted() {
+    await this.fetchProfile();
+    this.Profile = await this.getProfile[0];
+    console.log("this what i want" + this.Profile);
+
+    await this.fetchOneApp();
+    this.SingleApp = await this.getOneApp[0];
+
+    this.$store.dispatch("GetAllUsers");
   },
 };
 </script>
@@ -125,6 +164,9 @@ export default {
   width: 100%;
   height: 120vh;
   display: flex;
+}
+li {
+  list-style-type: none;
 }
 .dashboard-menu {
   width: 20%;
@@ -141,47 +183,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.profile-layout {
-  width: 100%;
-  height: 30vh;
-  background: #7557d3;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.profile-picture {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: #ffffff;
-}
-.profile-email {
-  font-family: Lato;
-  font-style: italic;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 19px;
-  letter-spacing: -0.02em;
-  color: #ffffff;
-  text-align: center;
-}
-.profile-name {
-  font-family: Lato;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 24px;
-  letter-spacing: -0.02em;
-  color: #ffffff;
-  padding: 5px;
-  text-align: center;
-}
-.profile-picture img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-}
+
 .main-menu {
   padding: 50px;
 }
@@ -209,6 +211,16 @@ export default {
   color: #2b3c4e;
   padding: 10px;
   text-decoration: none;
+}
+.logout-div li {
+  list-style-type: none;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  color: #2b3c4e;
+  padding: 10px;
 }
 .dash:active {
   text-decoration-color: #2b3c4e;
@@ -261,6 +273,7 @@ export default {
   width: 90%;
   height: 112vh;
   margin: auto;
+  border: none;
 }
 .date-div {
   width: 220px;
@@ -346,6 +359,7 @@ export default {
   font-size: 16px;
   line-height: 19px;
   color: #ffffff;
+  border: none;
 }
 .take-assessment-body {
   width: 90%;

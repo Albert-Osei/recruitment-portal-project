@@ -11,6 +11,27 @@ SELECT id, role_id, firstname, lastname, password, email FROM users WHERE email=
 const getAllRoles = `
 SELECT id, type FROM roles
 `;
+
+const getAllUsersQuery = `
+SELECT * FROM users
+`;
+
+const getAllScores = `
+SELECT * FROM scores
+`;
+
+const findUserById = `
+SELECT id, role_id, firstname, lastname, email, phonenumber, password FROM users WHERE id=$1
+`
+const scores = `
+INSERT INTO
+  scores(
+    firstname,
+    lastname,
+    score
+  )
+VALUES ($1,$2,$3) RETURNING id, firstname, lastname, score, created_at`;
+
 /**
  * add user
  * - firstName
@@ -39,4 +60,8 @@ module.exports = {
     addUser,
     findUserByEmail,
     getAllRoles,
+    getAllUsersQuery,
+    findUserById,
+    scores,
+    getAllScores,
 };

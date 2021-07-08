@@ -9,9 +9,9 @@ INSERT INTO
     university,
     course_of_study,
     cgpa,
-    user_image
+    files_path
   ) 
-VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id, firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa, user_image`;
+VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id, firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa, files_path`;
 
 const getAllForms = `
 SELECT * FROM forms

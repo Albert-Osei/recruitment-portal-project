@@ -3,6 +3,7 @@ const {
     addFormQuery,
     updateFormQuery,
     findFormByEmail,
+    findFormById,
     getAllForms
 } = require("../queries/form");
 
@@ -17,11 +18,29 @@ const getForms = async () => {
     }
 }
 
+const getOneForm = async (id) => {
+    const form = await runQuery(findFormById, [id]);
+    if (form.length === 0) {
+        throw {
+            status: "error",
+            message: "Form not found",
+            code: 400,
+            data: null,
+        };
+    }
+    return {
+        status: "success",
+        message: "Form returned successfully",
+        code: 200,
+        data: form,
+    };
+};
+
 const addForm = async (body) => {
-    const { firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa, user_image } = body;
+    const { firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa, files_path } = body;
 
     const form = await runQuery(findFormByEmail, [email]);
-    if (form.length > 0) {
+    if (form.length < 0) {
         throw {
             status: "error",
             message: "Form already filled",
@@ -38,7 +57,7 @@ const addForm = async (body) => {
         university,
         course_of_study,
         cgpa,
-        user_image,
+        files_path
     ]);
 
     return {
@@ -87,4 +106,5 @@ module.exports = {
     getForms,
     addForm,
     updateForm,
+    getOneForm,
 };

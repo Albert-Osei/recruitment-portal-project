@@ -21,11 +21,11 @@
           </div>
           <div class="input-container">
             <label for="phonenumber" class="label">Phone Number</label>
-            <input v-model="info.phonenumber" type="number" id="phone" name="phonenumber" class="inputs" required="true"/>
+            <input v-model="info.phonenumber" type="text" id="phone" name="phonenumber" class="inputs" required="true"/>
           </div>
           <div class="input-container">
             <label for="password" class="label">Password</label>
-            <input v-model="info.password" type="password" id="pword" name="password" class="inputs" required="true"/>
+            <input v-model="info.password" type="password" id="pword" name="password" class="inputs" required="true" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"/>
           </div>
           <div class="input-container">
             <label for="confirm_password" class="label">Confirm Passwrod</label>
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Signup",
@@ -68,17 +68,39 @@ export default {
         showError: false   
     };
   },
+  computed: {
+     ...mapGetters(["apiResponse"]),
+  },
   methods:{
     ...mapActions(["Signup"]),
     async submit() {
+      // try {
+      //   await this.Signup(this.info);
+      //   this.$router.push("/login");
+      //   this.showError = false
+      // } catch (error) {
+      //   this.showError = true
+      // }
+
       try {
-        await this.Signup(this.info);
-        this.$router.push("/login");
-        this.showError = false
+        const response = await this.Signup(this.info);
+        this.$router.push({ name: "Login"});
+        console.log(this.info);
+        this.apiResponse(response);
+        this.showError = false;
       } catch (error) {
-        this.showError = true
+        this.showError = true;
       }
-    },   
+    },  
+    
+    // apiResponse(response) {
+    //   if (response.status == "success") {
+    //     setTimeout(() => {
+    //       this.$router.push({ name: "Login"});
+    //       response.message = "";
+    //     }, 8000);
+    //   }
+    // },
   },
 
 };
@@ -137,6 +159,8 @@ export default {
   box-sizing: border-box;
   border-radius: 4px;
   margin: 10px 0;
+  outline: none;
+  padding: 0 15px;
 }
 .label {
   font-family: Lato;

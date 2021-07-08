@@ -2,12 +2,40 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const config = require("../config/env/index");
 const { runQuery } = require("../config/database.config");
-const { findUserByEmail, addUser, getAllRoles } = require("../queries/users");
+const { findUserByEmail, addUser, getAllRoles, getAllUsersQuery, findUserById, scores, getAllScores } = require("../queries/users");
 
 
 const findUser = async (email) => {
     const user = await runQuery(findUserByEmail, [email]);
     return user;
+};
+
+const getExistingUsers = async () => {
+    const users = await runQuery(getAllUsersQuery);
+    return {
+        status: "success",
+        message: "Users fetched successfully",
+        code: 200,
+        data: users
+    };
+};
+
+const getSingleUser = async (id) => {
+    const user = await runQuery(findUserById, [id]);
+    if (user.length === 0) {
+        throw {
+            status: "error",
+            message: "User not found",
+            code: 400,
+            data: null
+        }
+    }
+    return {
+        status: "success",
+        message: "User returned successfully",
+        code: 200,
+        data: user
+    };
 };
 
 const loginUser = async (body) => {
@@ -97,10 +125,35 @@ const createUser = async (body) => {
     };
 };
 
+const saveScores = async (body) => {
+    const { firstname, lastname, score } = body;
+    const response = await runQuery(scores, [firstname, lastname, score]);
+    return {
+        status: "success",
+        code: 201,
+        message: "New user score added successfully",
+        data: response[0]
+    };
+};
+
+const getUserScores = async () => {
+    const score = await runQuery(getAllScores);
+    return {
+        status: "success",
+        message: "Scores fetched successfully",
+        code: 200,
+        data: score
+    };
+};
+
 
 
 module.exports = {
     loginUser,
     createUser,
     findUser,
+    getExistingUsers,
+    getSingleUser,
+    saveScores,
+    getUserScores
 };

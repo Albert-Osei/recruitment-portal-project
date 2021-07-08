@@ -6,6 +6,10 @@ import SingleDashboard from '../views/SingleDashboard.vue'
 import TakeAssessmentPage from '../views/TakeAssessmentPage.vue'
 import Questions from '../views/Questions.vue'
 import CreateApplication from '../views/CreateApplication.vue'
+import AdminDashboard from '../views/AdminDashboard.vue'
+import EntriesTable from '../views/EntriesTable.vue'
+import History from '../views/History.vue'
+import Successful from '../views/Successful.vue'
 
 Vue.use(VueRouter)
 
@@ -94,6 +98,26 @@ const routes = [
     name: 'CreateApplication',
     component: CreateApplication
   },
+  {
+    path: '/admin-dashboard',
+    name: 'AdminDashboard',
+    component: AdminDashboard
+  },
+  {
+    path: '/entriestable',
+    name: 'EntriesTable',
+    component: EntriesTable
+  },
+  {
+    path: '/history',
+    name: 'History',
+    component: History
+  },
+  {
+    path: '/successful',
+    name: 'Successful',
+    component: Successful
+  },
 ]
 
 const router = new VueRouter({
@@ -102,6 +126,7 @@ const router = new VueRouter({
   routes
 })
 
+// Handling Unauthorized Users
 // router.beforeEach((to, from, next) => {
 //   if(to.matched.some(record => record.meta.requiresAuth)) {
 //     if (store.getters.isAuthenticated) {

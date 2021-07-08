@@ -15,37 +15,37 @@
               alt="create application icon"
             />
           </div>
-          <a href="">Create Application</a>
+          <router-link :to="{ name: 'CreateApplication' }">Create Application</router-link>
         </div>
         <div class="anchor-grp">
           <div class="anchor-icon">
             <img src="../assets/entries.svg" alt="application entries icon" />
           </div>
-          <a href="">Application Entries</a>
+          <router-link :to="{ name: 'EntriesTable'}">Application Entries</router-link>
         </div>
         <div class="anchor-grp">
           <div class="anchor-icon">
             <img src="../assets/assessment.svg" alt="compose assessment icon" />
           </div>
-          <a href="">Compose Assessment</a>
+          <router-link :to="{ name: 'Assessment'}">Compose Assessment</router-link>
         </div>
         <div class="anchor-grp">
           <div class="anchor-icon">
             <img src="../assets/history.svg" alt="assessment history icon" />
           </div>
-          <a href="">Assessment History</a>
+          <router-link :to="{ name: ''}">Assessment History</router-link>
         </div>
         <div class="anchor-grp">
           <div class="anchor-icon">
             <img src="../assets/results.svg" alt="results icon" />
           </div>
-          <a href="">Results</a>
+           <router-link :to="{ name: ''}">Results</router-link>
         </div>
         <div class="anchor-grp">
           <div class="anchor-icon">
             <img src="../assets/Setting.svg" alt="settings icon" />
           </div>
-          <a href="">Settings</a>
+          <router-link :to="{ name: 'Profile'}">Settings</router-link>
         </div>
         <div class="anchor-grp">
           <div class="anchor-icon">

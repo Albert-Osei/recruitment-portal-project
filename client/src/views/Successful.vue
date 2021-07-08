@@ -13,7 +13,7 @@
           </li>
           <li>
             <img src="../assets/assessment.svg" alt="" /><router-link
-              :to="{ name: 'TakeAssessmentPage' }"
+              :to="{ name: 'Assessment' }"
               >Assessment</router-link
             >
           </li>
@@ -24,11 +24,10 @@
     <div class="dashboard-body-container">
       <div class="dashboard-body">
         <div class="header-container">
-          <div class="take-A">
+          <div class="thank-you">
             <h2>Take Assessment</h2>
             <p>
-              Click the button below to start assessment, you have limited time
-              for this test
+              Thank you!
             </p>
           </div>
           <div class="timer">
@@ -39,19 +38,20 @@
             </h2>
           </div>
         </div>
-        <div class="sand-clock-container">
-          <img src="../assets/Flat hourglass.gif" alt="timer" id="loading" />
-          <p>We have 4 days left until the next assessment</p>
-          <p>Watch this space</p>
-          <router-link :to="{ name: 'Questions' }"
-            ><button
-              v-on:click="countdown = 5"
-              type="button"
-              class="assessment-btn"
+        <div class="dashboard-body-sub">
+          <div class="confetti-container-layout">
+            <div class="confetti-container">
+              <img src="../assets/confetti.svg" alt="" />
+            </div>
+            <p>
+              We have received your assessment test, we will get back to you
+              soon.
+            </p>
+            <p>Best of luck</p>
+            <router-link :to="{ name: 'Home' }"
+              ><button class="home-btn">Home</button></router-link
             >
-              Take Assessment
-            </button></router-link
-          >
+          </div>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
 import UserP from "@/components/UserP.vue";
 import Logout from "@/components/Logout.vue";
 export default {
-  name: "user-dash",
+  name: "Successful",
   components: {
     UserP,
     Logout,
@@ -111,11 +111,55 @@ a {
 .main-menu img {
   padding-right: 10px;
 }
+.logout-div {
+  margin-top: 20px;
+}
 
+.text-layout h2 {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 43.5555px;
+  line-height: 52px;
+  letter-spacing: -0.02em;
+  color: #2b3c4e;
+}
+.text-layout p {
+  font-family: Lato;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #2b3c4e;
+}
+.timer-text {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #4f4f4f;
+}
+.timer-text-cont {
+  display: flex;
+  justify-content: flex-start;
+}
+.dashboard-body {
+  width: 90%;
+  height: 100vh;
+  margin: auto;
+}
+.timer {
+  width: 25%;
+}
+.thank-you {
+  width: 70%;
+}
 .header-container {
   padding-top: 2rem;
   height: 25vh;
   display: flex;
+
   justify-content: space-between;
 }
 .header-container h2 {
@@ -135,66 +179,29 @@ a {
   line-height: 19px;
   color: #2b3c4e;
 }
-.dashboard-body {
-  width: 90%;
-  height: 100vh;
-  margin: auto;
-}
-.timer {
-  width: 20%;
-}
-.timer-text-cont {
+.dashboard-body-sub {
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
 }
-.timer-text {
-  font-family: Lato;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 17px;
-  color: #4f4f4f;
+.confetti-container {
+  width: 148px;
+  height: 148px;
+  margin: 10px;
 }
-.take-A {
-  width: 70%;
+.confetti-container img {
+  width: 100%;
+  height: 100%;
 }
-.min {
-  font-family: Lato;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 12px;
-  line-height: 14px;
-  text-align: center;
-  color: #4f4f4f;
-}
-.sand-clock-container {
-  width: 60%;
-  height: 50vh;
-
-  margin: auto;
+.confetti-container-layout {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-.sand-clock-container img {
-  width: 60px;
-  height: 72px;
-  margin: 10px;
-}
-
-#loading {
-  animation: rotation 2s infinite linear;
-}
-@keyframes rotation {
-  from {
-    -webkit-transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(359deg);
-  }
-}
-.sand-clock-container p {
+.confetti-container-layout p {
   font-family: Lato;
   font-style: normal;
   font-weight: normal;
@@ -202,12 +209,13 @@ a {
   line-height: 20px;
   text-align: center;
   color: #4f4f4f;
+  padding: 3px;
 }
-.assessment-btn {
-  background: #b1b1b1;
+.home-btn {
+  background: #7557d3;
   border-radius: 4px;
-  width: 200px;
-  height: 40px;
+  width: 205px;
+  height: 41px;
   font-family: Lato;
   font-style: normal;
   font-weight: bold;

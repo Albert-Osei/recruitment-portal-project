@@ -368,6 +368,7 @@ input {
   background: rgba(117, 87, 211, 0.1);
   margin-bottom: 40px;
   border: none;
+  outline: none;
 }
 
 .contact-number {

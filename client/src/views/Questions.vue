@@ -2,19 +2,21 @@
   <div class="user-dash">
     <!-- <h1>This is a single user {{ $route.params.id }}</h1> -->
     <div class="dashboard-menu">
-      <div class="profile-layout">
-        <div class="profile-picture">
-          <img src="../assets/pic.jpeg" alt="" />
-        </div>
-        <div>
-          <p class="profile-name">Albert Camus</p>
-          <p class="profile-email">Camus@gmail.com</p>
-        </div>
-      </div>
+      <UserP />
       <div class="main-menu">
         <div>
-          <li><img src="../assets/dashboard.svg" alt="" /> Dashboard</li>
-          <li><img src="../assets/assessment.svg" alt="" />Assessment</li>
+          <li>
+            <img src="../assets/dashboard.svg" alt="" />
+            <router-link :to="{ name: 'SingleDashboard' }"
+              >Dashboard</router-link
+            >
+          </li>
+          <li>
+            <img src="../assets/assessment.svg" alt="" /><router-link
+              :to="{ name: 'TakeAssessmentPage' }"
+              >Assessment</router-link
+            >
+          </li>
         </div>
         <div class="logout-div">
           <li><img src="../assets/logout.svg" alt="" />Log out</li>
@@ -24,7 +26,7 @@
     <div class="dashboard-body-container">
       <div class="dashboard-body">
         <div class="header-container">
-          <div>
+          <div class="take-A">
             <h2>Take Assessment</h2>
             <p>
               Click the button below to start assessment, you have limited time
@@ -32,9 +34,24 @@
             </p>
           </div>
           <div class="timer">
-            <!-- <div id="countdownExample">
-              <div class="values">30:00</div>
-            </div> -->
+            <div class="timer-text-cont">
+              <h3 class="timer-text">Timer</h3>
+            </div>
+
+            <div class="span">
+              <div>
+                <span class="time">
+                  {{ mins }}
+                  <span class="minute">min</span>
+                </span>
+              </div>
+              <div>
+                <span class=" time">
+                  0{{ secs }}
+                  <span class="minute">sec</span>
+                </span>
+              </div>
+            </div>
           </div>
         </div>
         <Quiz />
@@ -45,39 +62,146 @@
 
 <script>
 import Quiz from "@/components/Quiz.vue";
+import UserP from "@/components/UserP.vue";
+
+// import FlipCountdown from "vue2-flip-countdown";
 export default {
   name: "Questions",
   components: {
     Quiz,
+    UserP,
   },
-  props: ["User"],
+  data() {
+    return {
+      time: 30 * 60,
+      times: null,
+    };
+  },
+
+  methods: {
+    timed() {
+      this.times = setInterval(() => this.countdown(), 1000);
+    },
+
+    submitQuiz() {
+      for (let i = 0; i < this.questions.length; i++) {
+        this.user.push(this.score);
+      }
+      this.time = 0;
+      this.$router.push({ name: "Successful" });
+    },
+
+    countdown() {
+      if (this.time > 0) {
+        this.time--;
+      } else if (this.time == 1) {
+        this.submitQuiz();
+      }
+    },
+  },
+
+  computed: {
+    mins() {
+      const val = Math.floor(this.time / 60);
+      if (String(val).length === 1) {
+        return `0${val}`;
+      }
+      return val;
+    },
+
+    secs() {
+      const val = this.time % 60;
+      if (String(val).length === 1) {
+        return `0${val}`;
+      }
+      return val;
+    },
+  },
+
+  async mounted() {
+    await this.timed();
+  },
 };
 </script>
 
 <style scoped>
+.timer {
+  width: 25%;
+  /* border: 1px solid green; */
+}
+.time {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: 300;
+  font-size: 48px;
+  line-height: 50px;
+  text-align: center;
+  color: #2b3c4e;
+}
+.timer-text {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #4f4f4f;
+}
+.timer-text-cont {
+  /* border: 1px solid magenta; */
+  display: flex;
+  justify-content: flex-start;
+}
+.take-A {
+  width: 70%;
+}
+.span {
+  display: flex;
+}
+a {
+  text-decoration: none;
+}
+
+.minute {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+  color: #4f4f4f;
+}
+.flip-card__back-bottom {
+  color: #000;
+  position: absolute;
+  top: 50%;
+  left: 0;
+
+  background: #ffffff;
+}
 .user-dash {
   width: 100%;
-  height: 100vh;
+  height: 120vh;
   display: flex;
 }
 .dashboard-menu {
   width: 20%;
-  height: 100vh;
+  height: 120vh;
   background: #ffffff;
   box-shadow: 0px 5px 15px rgba(33, 31, 38, 0.05);
   border-radius: 8px;
 }
 .dashboard-body-container {
   width: 80%;
-  height: 100vh;
+  height: 120vh;
   background: #fdfdff;
   display: flex;
   justify-content: center;
   align-items: center;
+  /* border: 1px solid salmon; */
 }
 .profile-layout {
   width: 100%;
-  height: 30vh;
+  height: 35vh;
   background: #7557d3;
   color: #ffffff;
   display: flex;
@@ -155,14 +279,16 @@ export default {
   color: #2b3c4e;
 }
 .dashboard-body {
-  width: 80%;
-  height: 85vh;
+  width: 90%;
+  height: 100vh;
   margin: auto;
+  /* border: 1px solid magenta; */
 }
 .header-container {
   padding-top: 2rem;
   height: 20vh;
   display: flex;
+  justify-content: space-between;
 }
 .header-container h2 {
   font-family: Lato;

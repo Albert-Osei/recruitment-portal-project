@@ -5,9 +5,7 @@
         <h2 class="content-header">Compose Assessment</h2>
         <form @submit.prevent="submit" enctype="multipart/form-data" class="content-input">
             <div class="dots">
-                <button class="upload-btn">
-                    <strong>+</strong>
-                </button>
+                <button class="upload-btn">+ Choose file</button>
                 <input type="file" name="file" ref="file" @change="handleFileUpload">
             </div>
             <div class="question-input">
@@ -165,7 +163,22 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
     margin: 103px 0 25px 0;
+}
+
+.dots input[type="file"] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+
+.upload-btn {
+    background-color: #ffff;
+    border: none;
 }
 
 /* .dot-text {

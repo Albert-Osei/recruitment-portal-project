@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Login",
@@ -50,15 +50,16 @@ export default {
       showError: false
     };
   },
+  computed: {
+     ...mapGetters(["apiResponse"]),
+  },
   methods: {
     ...mapActions(["LogIn"]),
     async submit() {
-      const User = new FormData();
-      User.append("email", this.info.email);
-      User.append("password", this.info.password);
       try {
-        await this.LogIn(User);
-        this.$router.push("/forms");
+        const response = await this.LogIn(this.info);
+        this.$router.push("forms");
+        this.apiResponse(response);
         this.showError = false
       } catch (error) {
         this.showError = true
@@ -128,6 +129,8 @@ export default {
   border: 1.5px solid #bdbdbd;
   box-sizing: border-box;
   border-radius: 4px;
+  padding: 0 15px;
+  outline: none;
 }
 .label {
   font-family: Lato;
@@ -148,6 +151,7 @@ export default {
   font-size: 16px;
   line-height: 19px;
   color: #ffffff;
+  border: none;
 }
 .redirect {
   display: flex;

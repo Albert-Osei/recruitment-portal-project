@@ -42,7 +42,7 @@ export default {
       Admin.append("password", this.form.password);
       try {
         await this.AdminLogin(Admin);
-        this.$router.push("forms");
+        this.$router.push("admindashboard");
         this.showError = false
       } catch (error) {
         this.showError = true
@@ -61,8 +61,8 @@ export default {
   box-sizing: border-box;
 }
 
-body {
-  background-color: #7557D3;
+html {
+  background: #7557D3;
 }
 
 .desktop-background {
@@ -114,6 +114,8 @@ input {
   height: 48px;
   background: none;
   margin-bottom: 30px;
+  outline: none;
+  padding: 0 20px;
 }
 
 .btn {

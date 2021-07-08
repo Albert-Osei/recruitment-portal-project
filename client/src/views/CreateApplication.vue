@@ -1,161 +1,182 @@
 <template>
-  <div class="row">
-    <div class="col-3">
-      <Sidebar />
-    </div>
-    <div class="container col-8">
-      <h2 class="my-5">Create Application</h2>
-      <!-- <p>{{GetApplications.message}}</p> -->
-      <div>
-        <form enctype="multipart/form-data" @submit.prevent="submit">
-          <div class="row">
-            <div class="fileup col">
-              <div class="upload-btn-wrapper">
-                <button class="btns">
-                  <strong>+ choose file</strong>
-                </button>
-                <input type="file" name="file_path" ref="file" @change="handleFileUpload"/>
-              </div>
-            </div>
-            <div class="col">
-              <label for="link">Link</label>
-              <input type="text" name="link" class="form-control"  v-model="link"/>
-            </div>
-           
-          </div>
-          
-          <div class="row my-4">
-            <div class="col">
-              <label for="closure_date">Application closure date</label>
-              <input type="date" name="closure_date" class="form-control" v-model="closure_date"/>
-            </div>
-            <div class="col">
-              <label for="batch_id">Batch ID</label>
-              <input type="text" name="batch_id" class="form-control"  v-model="batch_id"/>
-            </div>
-          </div>
-          <div class="form-group my-3">
-            <label for="instructions">Instructions</label>
-            <textarea class="form-control" name id rows="4" v-model="instructions"></textarea>
-          </div>
-          <div class="text-center">
-            <button class="btn btn-primary" type="submit">Submit</button>
-          </div>
-          
-        </form>
+  <div class="root">
+    <Sidebar />
+    <div class="main">
+      <h1 class="main-title">Create Application</h1>
+      <div class="main-content1">
+        <div class="dot-box">
+          <button class="upload-wrap">+ Choose file</button>
+          <input type="file" name="file" ref="file" @change="handleFileUpload">
+        </div>
+        <div class="link-wrapper">
+          <label for="link" class="input-text">Link</label>
+          <input type="text" name="link" class="input-field">
+        </div>
+      </div>
+      <div class="main-content2">
+        <div class="closure">
+          <label for="closure_date">Application closure date</label>
+          <input type="date" name="closure_date" class="input-field">
+        </div>
+        <div class="batchId">
+          <label for="batch_id" class="input-text">Batch ID</label>
+          <input type="text" name="batch_id" class="input-field">
+        </div>
+      </div>
+      <div class="main-content3">
+        <label for="instructions">Instructions</label>
+        <input type="text" name="instructions" class="instructions-field">   
+      </div>
+      <div class="btn-field">
+        <button class="app-btn">Submit</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Sidebar from "../components/Sidebar";
-import { mapGetters, mapActions } from "vuex";
+import Sidebar from '../components/Sidebar.vue'
 export default {
-  name: "CreateApplication",
+  name: 'CreateApplication',
   components: {
     Sidebar
-  },
-  data() {
-    return {
-      file_path: '',
-      batch_id: '',
-      link: '',
-      closure_date: '',
-      instructions: ''
-    }
-  },
-  created: function () {
-      // a function to call getapplications action
-      this.GetApplications()
-  },
-  computed: {
-    ...mapGetters({ Applications: "StateApplications", Admin: "StateAdmin"}),
+  }
 
-    // isValid() {
-    //   if (
-    //     this.link == "" ||
-    //     this.file == "" ||
-    //     this.batch_id == "" ||
-    //     this.closing_date == "" ||
-    //     this.instruction == ""
-    //   ) {
-    //     return false;
-    //   } else {
-    //     return true;
-    //   }
-    // }
-  },
-
-  methods: {
-    ...mapActions(["CreateApplication", "GetApplications"]),
-
-    handleFileUpload() {
-      this.file_path = this.$refs.file.files[0];
-    },
-
-    submit() {
-    //   if (this.isValid) {
-        let formData = new FormData();
-        formData.append("file_path", this.file_path);
-        formData.append("batch_id", this.batch_id);
-        formData.append("link", this.link);
-        formData.append("closure_date", this.closure_date);
-        formData.append("instructions", this.instructions);
-        this.CreateApplication(formData);
-        this.file_path = "";
-        this.batch_id = "";
-        this.link = "";
-        this.closure_date = "";
-        this.instructions = "";
-        
-    //   } else {
-    //     alert("All fields are required");
-    //   }
-    }  
-  },
-};
+}
 </script>
 
 <style>
-.fileup {
-  display: flex;
-  justify-content: center;
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200;0,300;0,400;0,700;1,400&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-h2 {
-  font-family: Lato;
-  font-style: normal;
+.root {
+  display: flex;
+}
+
+.main {
+  margin: 137px 0 0 75px;
+}
+
+.main-title {
+  font-family: 'Lato';
   font-weight: 300;
   font-size: 43.5555px;
-  line-height: 52px;
-  letter-spacing: -0.02em;
-  color: #2b3c4e;
+  color: #2B3C4E;
+  margin-bottom: 62px;
 }
 
-.upload-btn-wrapper {
+.main-content1 {
+  display: flex;
+}
+
+.dot-box {
+  width: 456px;
+  height: 108px;
+  border: 1.55172px dashed #2B3C4E;
+  box-sizing: border-box;
+  border-radius: 6.2069px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
   overflow: hidden;
-  display: inline-block;
+  margin-right: 64px;
 }
 
-.btns {
-  border: 1.55px dashed #2b3c4e;
-  box-sizing: border-box;
-  color: #2b3c4e;
-  background-color: white;
-  padding: 46px 180px;
-  border-radius: 8px;
-  font-size: 12px;
-  text-align: center;
-  /* font-weight: bold; */
-}
-
-.upload-btn-wrapper input[type="file"] {
+.dot-box input[type="file"] {
   font-size: 100px;
   position: absolute;
   left: 0;
   top: 0;
   opacity: 0;
 }
+
+.upload-wrap {
+  background-color: #ffff;
+  border: none;
+}
+
+label {
+  font-family: 'Lato';
+  font-weight: normal;
+  font-size: 14px;
+  color: #2B3C4E;
+}
+
+.input-field {
+  width: 456px;
+  height: 41px;
+  border: 1.5px solid #2B3C4E;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.main-content2 {
+  display: flex;
+  margin-top: 30px;
+}
+
+.main-content3 {
+  margin: 36px 0 44px 0;
+}
+
+.instructions-field {
+  width: 976px;
+  height: 144px;
+  border: 1.5px solid #2B3C4E;
+  box-sizing: border-box;
+  border-radius: 4px;
+}
+
+.app-btn {
+  width: 379px;
+  height: 50px;
+  background: #7557D3;
+  border-radius: 4px;
+  font-family: 'Lato';
+  font-weight: bold;
+  font-size: 16px;
+  color: #FFFFFF;
+  border: none;
+}
+
+/* .upload-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+.link-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content3 {
+  display: flex;
+  flex-direction: column;
+}
+
+.closure {
+  display: flex;
+  flex-direction: column;
+  margin-right: 64px;
+}
+
+.batchId {
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-field {
+ display: flex;
+ justify-content: center;
+}
+
+
 </style>

@@ -12,7 +12,7 @@ const validateNewForm = (req, res, next) => {
         university: Joi.string().required(),
         course_of_study: Joi.string().required(),
         cgpa: Joi.string().required(),
-        // user_image: Joi.string()
+        files_path: Joi.string()
     });
     baseValidatorForBody(schema, req, res, next);
 };
