@@ -8,20 +8,25 @@ const state = {
     admin: null,
     assessments: [],
     applications: [],
+    // application: "",
     profile: "",
     oneApp: "",
+    statuses: [],
 };
 const getters = {
     isAuthenticated: (state) => !!state.user,
     apiResponse: state => state.response,
     StateForms: (state) => state.forms,
     StateUser: (state) => state.user,
+    StateAllUsers: (state) => state.allusers,
     getScores: (state) => state.scores,
     StateAdmin: (state) => state.admin,
+    // getApplication: (state) => state.application,
     getProfile: (state) => state.profile,
     getOneApp: (state) => state.oneApp,
     StateAssessments: (state) => state.assessments,
     StateApplications: (state) => state.applications,
+    StateStatuses: (state) => state.statuses
     // StateToken: (state) => state.token,
 };
 const actions = {
@@ -70,6 +75,10 @@ const actions = {
         await axios.post('forms', form)
         await dispatch('GetForms')
     },
+    async CreateStatus({dispatch}, userstatus) {
+        await axios.post('status', userstatus)
+        await dispatch('GetStatuses')
+    },
     async CreateAssessment({dispatch}, assessment) {
         await axios.post('quiz', assessment)
         await dispatch('GetAssessments')
@@ -85,6 +94,10 @@ const actions = {
         console.log(response)
         commit('setForms', response.data)
     },
+    async GetStatuses({ commit }){
+        let response = await axios.get('status')
+        commit('setStatuses', response.data)
+    },
     async GetAssessments({ commit }){
         let response = await axios.get('quiz')
         console.log(response);
@@ -92,6 +105,7 @@ const actions = {
     },
     async GetApplications({ commit }){
         let response = await axios.get('application')
+        // console.log(response)
         commit('setApplications', response.data)
     },
 
@@ -125,6 +139,11 @@ const actions = {
             commit("setProfile", error.response);
         }
     },
+    // async fetchApplication({ commit }) {
+    //     try {
+
+    //     }
+    // },
 
     async fetchOneApp({ commit }) {
         try {
@@ -139,19 +158,19 @@ const actions = {
         }
     },
 
-    // async Answers(UserInfo) {
-    //     try {
-    //         axios.defaults.headers.common["Authorization"] =
-    //         "Bearer" + this.state.token;
-    //         const response = await axios.post(
-    //             "http://localhost:9090/api/v1/users/scores",
-    //             UserInfo
-    //         );
-    //         console.log(response);
-    //     } catch (error) {
-    //         console.log(error.response);
-    //     }
-    // },
+    async Answers(UserInfo) {
+        try {
+            axios.defaults.headers.common["Authorization"] =
+            "Bearer" + this.state.token;
+            const response = await axios.post(
+                "users/scores",
+                UserInfo
+            );
+            console.log(response);
+        } catch (error) {
+            console.log(error.response);
+        }
+    },
 
     // async LogOut({ commit }) {
     //     let user = null
@@ -187,8 +206,14 @@ const mutations = {
     setForms(state, forms){
         state.forms = forms
     },
+    setAllUsers(state, allusers){
+        state.allusers = allusers
+    },
     setQuestions(state, questions) {
         state.questions = questions;
+    },
+    setStatuses(state, statuses) {
+        state.statuses = statuses
     },
     setSignedupUser(state, details) {
         state.details = details;

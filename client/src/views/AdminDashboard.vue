@@ -7,21 +7,21 @@
         <div class="slot1">
           <h3 class="slot-header">Create Applications</h3>
           <div class="numeral-field1">
-            <p class="numeral">233</p>
+            <p class="numeral">1</p>
           </div>
           <h3 class="subtext">Academy 2.0</h3>
         </div>
         <div class="slot2">
           <h3 class="slot-header">Total Applications</h3>
           <div class="numeral-field2">
-            <p class="numeral">4253</p>
+            <p class="numeral">1</p>
           </div>
           <h3 class="subtext">All entries so far</h3>
         </div>
         <div class="slot3">
           <h3 class="slot-header">Academy's</h3>
           <div class="numeral-field3">
-            <p class="numeral">4</p>
+            <p class="numeral">1</p>
           </div>
           <h3 class="subtext">So far</h3>
         </div>

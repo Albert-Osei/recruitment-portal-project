@@ -23,7 +23,7 @@
                     <a @click="logout">Logout</a>
                   </span>
                   <span v-else>
-                    <router-link to="/signup">Register</router-link> |
+                    <!-- <router-link to="/signup">Register</router-link> | -->
                     <router-link to="/login">Login</router-link>
                   </span>
                   <!-- <h4 v-if="user">
@@ -49,7 +49,7 @@
                     </div>
                     <div>
                       <router-link :to="{ name: 'Signup' }"
-                        ><button class="hero-btn">
+                        ><button class="hero-btn" v-show="preview">
                           Register Now
                         </button></router-link
                       >
@@ -138,24 +138,66 @@
 <script>
 // @ is an alias to /src
 // import axios from "axios";
-// import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Home",
   components: {},
+  data() {
+    return {
+      preview: false
+    }
+  },
+  created: function () {
+    // a function to call GetApplications action
+    this.GetApplications()
+    
+
+  },
+
+  async mounted() {
+    await this.GetApplications();
+    const resp = this.$store.state.auth.applications.data
+    if(resp.length > 0) {
+      this.preview = true
+    }
+  },
 
   computed: {
+    ...mapGetters({ Applications: "StateApplications" }),
+
+    
+
     isLoggedIn: function() {
       return this.$store.getters.isAuthenticated;
     },
   },
 
   methods: {
+    ...mapActions(["CreateApplication", "GetApplications"]),
+    
+    // application() {
+    //   const resp = this.$store.state.auth.applications.data
+    //   if(resp.length > 0) {
+    //     this.preview = true
+    //   } else {
+    //     this.preview = false
+    //   }
+    // },
+
     async logout() {
       await this.$store.dispatch("LogOut");
       this.$router.push("/login");
     },
   },
+
+  // watch: {
+  //   GetApplications(val) {
+  //     if (val.code === 200) {
+  //       preview = true;
+  //     }
+  //   }
+  // }
 };
 </script>
 <style scoped>

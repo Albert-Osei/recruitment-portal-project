@@ -28,11 +28,9 @@ export default {
 }
 .logout-div li {
   list-style-type: none;
-  font-family: Lato;
-  font-style: normal;
-  font-weight: bold;
+  font-family: 'Lato';
+  font-weight: normal;
   font-size: 16px;
-  line-height: 19px;
   color: #2b3c4e;
   padding: 10px;
 }

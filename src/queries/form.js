@@ -11,19 +11,19 @@ INSERT INTO
     cgpa,
     files_path
   ) 
-VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id, firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa, files_path`;
+VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING id, firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa, files_path, created_at, updated_at`;
 
 const getAllForms = `
 SELECT * FROM forms
 `;
 
 const findFormByEmail = `
-SELECT firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa FROM forms WHERE email=$1
+SELECT firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa, created_at FROM forms WHERE email=$1
 `;
 
 
 const findFormById = `
-SELECT id, firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa FROM forms WHERE id=$1
+SELECT id, firstname, lastname, email, date_of_birth, address, university, course_of_study, cgpa, created_at FROM forms WHERE id=$1
 `;
 
 const updateFormQuery = `

@@ -3,8 +3,7 @@ const {
     getAllQuizes,
     addQuizQuery,
     updateQuizQuery,
-    findQuizById,
-    getBatchId,
+    findQuizById
 } = require("../queries/quiz");
 
 // This is the getQuiz method
@@ -32,8 +31,6 @@ const addQuiz = async (body, id) => {
             data: null,
         };
     }
-    const batches = await runQuery(getBatchId);
-    const batch_id = batches.find((element) => element.type === "BatchId1");
     const response = await runQuery(addQuizQuery, [
         question,
         option_a,
@@ -41,8 +38,7 @@ const addQuiz = async (body, id) => {
         option_c,
         option_d,
         answer,
-        file,
-        batch_id.id,
+        file
     ]);
 
     return {
@@ -82,6 +78,7 @@ const updateQuiz = async (body, id) => {
         data: response[0],
     };
 };
+
 
 
 module.exports = {

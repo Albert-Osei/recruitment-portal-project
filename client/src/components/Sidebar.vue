@@ -2,7 +2,7 @@
     <div class="sidebar">
       <div class="icon-box">
         <div class="icon">
-          <img src="" alt="" />
+          <img src="../assets/admin.jpg" alt="" />
         </div>
         <h2 class="admin-name">Albert Conte</h2>
         <h3 class="admin-email">conte@gmail.com</h3>
@@ -47,7 +47,7 @@
           </div>
           <router-link :to="{ name: 'Profile'}">Settings</router-link>
         </div>
-        <div class="anchor-grp">
+        <div class="logout-anchor-grp">
           <div class="anchor-icon">
             <img src="../assets/logout.svg" alt="logout icon" />
           </div>
@@ -91,6 +91,12 @@ export default {
   background: #e5e5e5;
   border-radius: 50px;
   margin: auto;
+}
+
+.icon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
 }
 
 .icon-box {
@@ -139,6 +145,11 @@ a {
 .anchor-grp {
   display: flex;
   margin-bottom: 29px;
+}
+
+.logout-anchor-grp {
+  display: flex;
+  margin-top: 230px;
 }
 
 </style>

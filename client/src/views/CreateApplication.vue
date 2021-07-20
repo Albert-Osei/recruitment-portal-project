@@ -3,46 +3,107 @@
     <Sidebar />
     <div class="main">
       <h1 class="main-title">Create Application</h1>
-      <div class="main-content1">
-        <div class="dot-box">
-          <button class="upload-wrap">+ Choose file</button>
-          <input type="file" name="file" ref="file" @change="handleFileUpload">
+      <form @submit.prevent="submit" enctype="multipart/form-data">
+        <div class="main-content1">
+          <div class="dot-box">
+            <button class="upload-wrap">+ Choose file</button>
+            <input
+              type="file"
+              name="file_path"
+              ref="file"
+              @change="handleFileUpload"
+            />
+          </div>
+          <div class="link-wrapper">
+            <label for="link" class="input-text">Link</label>
+            <input type="text" name="link" class="input-field" v-model="link" />
+          </div>
         </div>
-        <div class="link-wrapper">
-          <label for="link" class="input-text">Link</label>
-          <input type="text" name="link" class="input-field">
+        <div class="main-content2">
+          <div class="closure">
+            <label for="closure_date">Application closure date</label>
+            <input
+              type="date"
+              name="closure_date"
+              class="input-field"
+              v-model="closure_date"
+            />
+          </div>
+          <div class="batchId">
+            <label for="batch_id" class="input-text">Batch ID</label>
+            <input
+              type="text"
+              name="batch_id"
+              class="input-field"
+              v-model="batch_id"
+            />
+          </div>
         </div>
-      </div>
-      <div class="main-content2">
-        <div class="closure">
-          <label for="closure_date">Application closure date</label>
-          <input type="date" name="closure_date" class="input-field">
+        <div class="main-content3">
+          <label for="instructions">Instructions</label>
+          <input
+            type="text"
+            name="instructions"
+            class="instructions-field"
+            v-model="instructions"
+          />
         </div>
-        <div class="batchId">
-          <label for="batch_id" class="input-text">Batch ID</label>
-          <input type="text" name="batch_id" class="input-field">
+        <div class="btn-field">
+          <button type="submit" class="app-btn">Submit</button>
         </div>
-      </div>
-      <div class="main-content3">
-        <label for="instructions">Instructions</label>
-        <input type="text" name="instructions" class="instructions-field">   
-      </div>
-      <div class="btn-field">
-        <button class="app-btn">Submit</button>
-      </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
-import Sidebar from '../components/Sidebar.vue'
-export default {
-  name: 'CreateApplication',
-  components: {
-    Sidebar
-  }
+import Sidebar from "../components/Sidebar.vue";
+import { mapGetters, mapActions } from "vuex";
 
-}
+export default {
+  name: "CreateApplication",
+  components: {
+    Sidebar,
+  },
+  data() {
+    return {
+      link: "",
+      closure_date: "",
+      batch_id: "",
+      instructions: "",
+      file_path: "",
+    };
+  },
+  created: function() {
+    // a function to call getapplications action
+    this.GetApplications();
+  },
+  computed: {
+    ...mapGetters({ Applications: "StateApplications", Admin: "StateAdmin" }),
+  },
+  methods: {
+    ...mapActions(["CreateApplication", "GetApplications"]),
+
+    handleFileUpload() {
+      this.file_path = this.$refs.file.files[0];
+    },
+
+    submit() {
+      let formData = new FormData();
+      formData.append("link", this.link);
+      formData.append("closure_date", this.closure_date);
+      formData.append("batch_id", this.batch_id);
+      formData.append("instructions", this.instructions);
+      formData.append("file_path", this.file_path);
+      this.CreateApplication(formData);
+      this.link = "";
+      this.closure_date = "";
+      this.batch_id = "";
+      this.instructions = "";
+      this.file_path = "";
+    },
+  },
+};
 </script>
 
 <style>
@@ -64,10 +125,10 @@ export default {
 }
 
 .main-title {
-  font-family: 'Lato';
+  font-family: "Lato";
   font-weight: 300;
   font-size: 43.5555px;
-  color: #2B3C4E;
+  color: #2b3c4e;
   margin-bottom: 62px;
 }
 
@@ -78,7 +139,7 @@ export default {
 .dot-box {
   width: 456px;
   height: 108px;
-  border: 1.55172px dashed #2B3C4E;
+  border: 1.55172px dashed #2b3c4e;
   box-sizing: border-box;
   border-radius: 6.2069px;
   display: flex;
@@ -103,18 +164,21 @@ export default {
 }
 
 label {
-  font-family: 'Lato';
+  font-family: "Lato";
   font-weight: normal;
   font-size: 14px;
-  color: #2B3C4E;
+  color: #2b3c4e;
 }
 
 .input-field {
   width: 456px;
   height: 41px;
-  border: 1.5px solid #2B3C4E;
+  border: 1.5px solid #2b3c4e;
   box-sizing: border-box;
   border-radius: 4px;
+  outline: none;
+  padding: 0 15px;
+  color: #2b3c4e;
 }
 
 .main-content2 {
@@ -129,20 +193,22 @@ label {
 .instructions-field {
   width: 976px;
   height: 144px;
-  border: 1.5px solid #2B3C4E;
+  border: 1.5px solid #2b3c4e;
   box-sizing: border-box;
   border-radius: 4px;
+  outline: none;
+  padding: 0 15px;
 }
 
 .app-btn {
   width: 379px;
   height: 50px;
-  background: #7557D3;
+  background: #7557d3;
   border-radius: 4px;
-  font-family: 'Lato';
+  font-family: "Lato";
   font-weight: bold;
   font-size: 16px;
-  color: #FFFFFF;
+  color: #ffffff;
   border: none;
 }
 
@@ -174,9 +240,7 @@ label {
 }
 
 .btn-field {
- display: flex;
- justify-content: center;
+  display: flex;
+  justify-content: center;
 }
-
-
 </style>

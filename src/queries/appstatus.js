@@ -4,19 +4,19 @@ INSERT INTO
     status,
     email
   ) 
-VALUES ($1,$2) RETURNING id, status, email`;
+VALUES ($1,$2) RETURNING id, status, email, created_at, updated_at`;
 
 const getAllStatuses = `
 SELECT * FROM appstatus
 `;
 
-const findStatusByEmail = `
-SELECT status, email FROM appstatus WHERE email=$1
-`;
+// const findStatusByEmail = `
+// SELECT status, email, created_at FROM appstatus WHERE email=$1
+// `;
 
 
 const findStatusById = `
-SELECT id, status, email FROM appstatus WHERE id=$1
+SELECT id, status, email, created_at FROM appstatus WHERE id=$1
 `;
 
 const updateStatusQuery = `
@@ -26,7 +26,7 @@ RETURNING id, status, email, created_at, updated_at`;
 module.exports = {
     addStatusQuery,
     getAllStatuses,
-    findStatusByEmail,
+    // findStatusByEmail,
     findStatusById,
     updateStatusQuery
 }

@@ -6,7 +6,7 @@ import axios from 'axios';
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-axios.defaults.withCredentials = true
+axios.defaults.withCredentials = false
 axios.defaults.baseURL = 'http://localhost:9090/api/v1';
 axios.defaults.headers.post["Content-Type"] = "application/json;charset=utf-8";
 axios.interceptors.response.use(undefined, function (error) {

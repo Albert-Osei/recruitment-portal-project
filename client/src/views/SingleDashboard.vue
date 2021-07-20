@@ -35,15 +35,15 @@
             <p class="date-status-text">Date of Application</p>
             <p class="pending">{{ getDate(SingleApp.created_at) }}</p>
             <div class="blueline"></div>
-            <p class="update" style="margin-left: 20px;">
+            <p class="update">
               {{ getDiffDate(SingleApp.created_at) }}
             </p>
           </div>
           <div class="status-div">
             <p class="date-status-text">Application Status</p>
-            <p class="pending">Pending</p>
+            <p class="pending">{{ gottenstatus.status }}</p>
             <div class="orangeline"></div>
-            <p class="update" style="margin-left: 25px;">
+            <p class="update">
               We will get back to you
             </p>
           </div>
@@ -63,8 +63,8 @@
                 We have 4 days left until the next assessment
               </p>
               <p>Watch this space</p>
-              <router-link :to="{ name: 'TakeAssessmentPage' }"
-                ><button class="ass-btn">
+              <router-link :to="{ name: 'TakeAssessmentPage' }" 
+                ><button class="ass-btn" :disabled="validated" >
                   Take Assessment
                 </button></router-link
               >
@@ -94,17 +94,22 @@ export default {
       Profile: [],
       SingleApp: [],
       files: "",
+      validated: true
     };
   },
 
   computed: {
     ...mapGetters(["getProfile", "StateForms", "StateUser", "getOneApp"]),
     gottenform() {
-      return this.$store.state.auth.formsUser.data;
+      return this.$store.state.auth.profile[0];
     },
     // isLoggedIn: function() {
     //   return this.$store.getters.isAuthenticated;
     // },
+    gottenstatus() {
+      return this.$store.state.auth.statuses.data[0];
+    },
+    
   },
 
   created: function() {
@@ -121,6 +126,12 @@ export default {
         return moment(ans).format("DD.MM.YY");
       } else {
         return "Not applied";
+      }
+    },
+    isDisabled() {
+      const userstatus = this.$store.state.auth.statuses.data[0].status;
+      if (userstatus == 'approved') {
+        this.validated = false
       }
     },
     getDiffDate(s) {
@@ -175,6 +186,7 @@ li {
   box-shadow: 0px 5px 15px rgba(33, 31, 38, 0.05);
   border-radius: 8px;
 }
+
 .dashboard-body-container {
   width: 80%;
   height: 120vh;
@@ -214,12 +226,6 @@ li {
 }
 .logout-div li {
   list-style-type: none;
-  font-family: Lato;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-  color: #2b3c4e;
   padding: 10px;
 }
 .dash:active {
@@ -227,12 +233,20 @@ li {
 }
 .main-menu a {
   text-decoration: none;
+  font-family: 'Lato';
+  font-weight: normal;
+  font-size: 16px;
+  color: #2B3C4E;
 }
 .main-menu img {
   padding-right: 10px;
 }
 .logout-div {
   margin-top: 20px;
+  /* font-family: 'Lato';
+  font-weight: normal;
+  font-size: 16px;
+  color: #2b3c4e; */
 }
 
 .date-status {
@@ -241,12 +255,10 @@ li {
 .blueline {
   border: 2px solid #006df0;
   width: 150px;
-  margin-left: 20px;
 }
 .orangeline {
   border: 2px solid #f09000;
   width: 150px;
-  margin-left: 27px;
 }
 .text-layout {
   padding-top: 2rem;
@@ -276,14 +288,12 @@ li {
   border: none;
 }
 .date-div {
-  width: 220px;
-  height: 15vh;
-
+  width: 300px;
   margin-right: 50px;
+  text-align: left;
 }
 .status-div {
   width: 220px;
-  height: 15vh;
 }
 .pending {
   font-family: Lato;
@@ -291,7 +301,7 @@ li {
   font-weight: 300;
   font-size: 48px;
   line-height: 58px;
-  text-align: center;
+  text-align: left;
   color: #2b3c4e;
 }
 .date-status-text {
@@ -300,16 +310,18 @@ li {
   font-weight: normal;
   font-size: 14px;
   line-height: 17px;
-  text-align: center;
+  text-align: left;
   color: #4f4f4f;
 }
 .update {
   font-family: Lato;
   font-style: normal;
   font-weight: normal;
+  text-align: left;
   font-size: 12px;
   line-height: 14px;
   color: #4f4f4f;
+  margin-top: 9px;
 }
 .cardholders {
   display: flex;
@@ -364,7 +376,6 @@ li {
 .take-assessment-body {
   width: 90%;
   height: 300px;
-
   display: flex;
   flex-direction: column;
   justify-content: center;

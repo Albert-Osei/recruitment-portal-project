@@ -1,7 +1,3 @@
-const getBatchId = `
-SELECT id, type FROM batch
-`;
-
 const addQuizQuery = `
 INSERT INTO 
   quiz(
@@ -11,17 +7,16 @@ INSERT INTO
     option_c,
     option_d, 
     answer,
-    file,
-    batch_id
+    file
   ) 
-VALUES ($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id, question, option_a, option_b, option_c, option_d, answer, file, batch_id`;
+VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id, question, option_a, option_b, option_c, option_d, answer, file, created_at, updated_at`;
 
 const getAllQuizes = `
 SELECT * FROM quiz
 `;
 
 const findQuizById = `
-SELECT id, question, option_a, option_b, option_c, option_d, answer FROM quiz WHERE id=$1
+SELECT id, question, option_a, option_b, option_c, option_d, answer, created_at FROM quiz WHERE id=$1
 `;
 
 const updateQuizQuery = `
@@ -31,7 +26,6 @@ RETURNING id, question, option_a, option_b, option_c, option_d, answer, file, cr
 
 module.exports = {
   getAllQuizes,
-  getBatchId,
   addQuizQuery,
   updateQuizQuery,
   findQuizById

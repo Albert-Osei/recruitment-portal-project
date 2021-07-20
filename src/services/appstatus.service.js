@@ -48,7 +48,7 @@ const addStatus = async (body, id) => {
     }
     const response = await runQuery(addStatusQuery, [
         status,
-        email,
+        email
     ]);
 
     return {

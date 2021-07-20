@@ -29,8 +29,8 @@
           <div class="take-A">
             <h2>Take Assessment</h2>
             <p>
-              Click the button below to start assessment, you have limited time
-              for this test
+              Click the finish button below to submit assessment, you can go
+              back at any time to edit your answers.
             </p>
           </div>
           <div class="timer">
@@ -159,6 +159,7 @@ export default {
 }
 a {
   text-decoration: none;
+  color: #2b3c4e;
 }
 
 .minute {
@@ -175,7 +176,6 @@ a {
   position: absolute;
   top: 50%;
   left: 0;
-
   background: #ffffff;
 }
 .user-dash {
@@ -246,11 +246,9 @@ a {
 }
 .main-menu li {
   list-style-type: none;
-  font-family: Lato;
-  font-style: normal;
-  font-weight: bold;
+  font-family: 'Lato';
+  font-weight: normal;
   font-size: 16px;
-  line-height: 19px;
   color: #2b3c4e;
   padding: 10px;
 }
@@ -301,6 +299,7 @@ a {
 }
 .header-container p {
   font-family: Lato;
+  max-width: 600px;
   font-style: italic;
   font-weight: 500;
   font-size: 16px;

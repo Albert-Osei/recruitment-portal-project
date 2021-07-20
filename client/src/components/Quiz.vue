@@ -2,13 +2,13 @@
   <div class="quiz">
     <div class="quiz-cont">
       <div class="slide-container">
-        <carousel :per-page="1" :paginationEnabled="false" ref="productDetails">
+        <!-- <carousel :per-page="1" :paginationEnabled="false" ref="productDetails"> -->
           <!-- <div>  :navigation-next-label="nextLabel"
         :navigation-prev-label="prevLabel"</div> -->
-          <slide
-            v-for="(qst, index) in questions"
+          <div
+            v-for="(qst, index) in assessments"
             :key="index"
-            v-show="index === questionindex"
+            v-show="index === assessmentindex"
           >
             <h4>Question {{ qst.id }}</h4>
             <p class="qst-text" id="qst_text">{{ qst.question }}</p>
@@ -80,11 +80,11 @@
                 </ul>
               </div>
             </div>
-          </slide>
-        </carousel>
-        <!-- <span v-if="questionindex == questions.length"
-        >Your total score is {{ score }} / {{ questions.length }}</span
-      > -->
+          </div>
+        <!-- </carousel> -->
+        <span v-if="assessmentindex == assessments.length"
+        >Your total score is {{ score }} / {{ assessments.length }}</span
+      >
       </div>
       <div class="btn-container">
         <div>
@@ -105,7 +105,7 @@
     <div class="finish">
       <router-link :to="{ name: 'Successful' }"
         ><button
-          v-show="questionindex <= questions.length - 1"
+          v-show="assessmentindex <= assessments.length - 1"
           @click="endQuiz"
           class="finish-btn"
         >
@@ -117,7 +117,7 @@
 </template>
 
 <script>
-import { Carousel, Slide } from "vue-carousel";
+// import { Carousel, Slide } from "vue-carousel";
 import { mapState } from "vuex";
 import { mapActions } from "vuex";
 
@@ -126,13 +126,13 @@ import { mapActions } from "vuex";
 export default {
   name: "Quiz",
   components: {
-    Carousel,
-    Slide,
+    // Carousel,
+    // Slide,
   },
 
   data: () => {
     return {
-      questionindex: 0,
+      assessmentindex: 0,
 
       // score: "",
     };
@@ -148,10 +148,10 @@ export default {
     ...mapActions(["Answers"]),
 
     next: function() {
-      this.questionindex++;
+      this.assessmentindex++;
     },
     prev: function() {
-      this.questionindex--;
+      this.assessmentindex--;
     },
 
     timed() {
@@ -185,11 +185,12 @@ export default {
     score: function() {
       var total = 0;
       for (var i = 0; i < this.answers.length; i++) {
-        if (this.answers[i] == this.assessments[i].correct_answer) {
+        if (this.answers[i] == this.assessments[i].answer) {
           total += 1;
+          console.log(total);
         }
       }
-      return total;
+      return total
     },
 
     answers: function() {
@@ -204,7 +205,7 @@ export default {
 <style scoped>
 .quiz {
   width: 100%;
-  height: 70vh;
+  /* height: 70vh; */
   background-color: #fdfdff;
   display: flex;
   flex-direction: column;
@@ -212,44 +213,47 @@ export default {
   align-items: center;
 }
 .quiz-cont {
-  margin-top: 50px;
-  width: 60%;
-  height: 55vh;
+  margin-top: 30px;
+  width: 90%;
+  /* height: 55vh; */
 }
 ul {
   width: 100%;
-  height: 20vh;
+  /* height: 20vh; */
 }
 li {
   list-style-type: none;
   display: flex;
   width: 100%;
-  height: 33px;
+  /* height: 33px; */
+  align-items: center;
+  justify-content: center;
 }
 
 label {
   width: 80%;
-  height: 30px;
-  margin: auto;
-  display: flex;
-  /* justify-content: center; */
-  align-items: center;
+  /* height: 30px; */
+  /* margin: auto; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
 }
 
-.dot-div {
+/* .dot-div {
   width: 8px;
   height: 8px;
   border: 1px solid #2b3c4e;
-}
+} */
 .optn-index {
-  margin-right: 5px;
+  margin-right: 8px;
 }
 #radinput {
+  /* margin-right: 40px; */
   position: relative;
-  left: -156px;
+  left: -40px;
 }
 input[type="radio"] {
-  visibility: hidden;
+  visibility: visible;
   width: 8px;
   height: 8px;
   border: none;
@@ -257,79 +261,71 @@ input[type="radio"] {
   background: #31d283;
 }
 
-.dot-div-container {
+/* .dot-div-container {
   width: 15%;
   height: 30px;
   display: flex;
   justify-content: center;
   align-content: center;
   align-items: center;
-  /* border: 1px solid blue; */
-}
+  
+} */
 .slide-container {
-  width: 60%;
-  height: 45vh;
-  margin: auto;
-  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  /* height: 45vh; */
+  /* margin: auto; */
 }
 .slide-container h4 {
-  font-family: Lato;
+  font-family: 'Lato';
   font-style: italic;
-  font-weight: bolder;
+  font-weight: 500;
   font-size: 14px;
-  line-height: 17px;
   color: #2b3c4e;
   text-align: center;
   padding: 10px;
 }
 .options-container {
-  display: flex;
+  /* display: flex; */
   width: 100%;
   height: 30vh;
   padding: 3px;
-  justify-content: space-evenly;
-  align-items: center;
-  /* border: 1px solid red; */
+  /* justify-content: center;
+  align-items: center; */
 }
 
 .qst-text {
-  font-family: Lato;
+  font-family: 'Lato';
   font-style: italic;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 24px;
-  line-height: 29px;
   color: #2b3c4e;
-  text-align: center;
+  /* text-align: center; */
   padding: 10px;
 }
 
 .optn {
-  font-family: Lato;
+  font-family: 'Lato';
   font-style: italic;
   font-weight: 500;
   font-size: 16px;
-  line-height: 19px;
   color: #2b3c4e;
-  text-align: center;
+  min-width: 300px;
+  /* text-align: center; */
 }
 .optn:active,
 .optn:focus {
   background: #31d231;
 }
 
-.answers-container {
-  width: 100%;
-  height: 30vh;
-  display: flex;
-  grid-gap: 5px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
+
 .btn-container {
-  width: 100%;
+  /* width: 100%; */
   display: flex;
-  justify-content: space-between;
+  align-items: stretch;
+  justify-content: space-around;
 }
 #next {
   width: 125px;
@@ -342,6 +338,7 @@ input[type="radio"] {
   font-size: 16px;
   line-height: 19px;
   color: #ffffff;
+  border: none;
 }
 #prev {
   width: 125px;
@@ -355,6 +352,7 @@ input[type="radio"] {
   font-size: 16px;
   line-height: 19px;
   color: #211f26;
+  border: none;
 }
 
 .finish-btn {
@@ -368,5 +366,6 @@ input[type="radio"] {
   font-size: 16px;
   line-height: 19px;
   color: #ffffff;
+  border: none;
 }
 </style>

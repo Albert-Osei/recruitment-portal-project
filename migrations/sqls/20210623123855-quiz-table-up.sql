@@ -8,7 +8,6 @@ CREATE TABLE "quiz" (
     "option_d" varchar(255),
     "answer" varchar(255),
     "file" varchar(255),
-    "batch_id" INT,
     "created_at" timestamptz DEFAULT NOW(),
     "updated_at" timestamptz DEFAULT NOW()
 );

@@ -41,7 +41,7 @@
         <div class="dont-have-account">
           <p>
             Already have an account?
-            <a><span class="login-redirect"> Sign In</span></a>
+            <a href="Login" style="text-decoration: none"><span class="login-redirect"> Sign In</span></a>
           </p>
         </div>
       </div>
@@ -84,7 +84,7 @@ export default {
 
       try {
         const response = await this.Signup(this.info);
-        this.$router.push({ name: "Login"});
+        this.$router.push({ name: "Home"});
         console.log(this.info);
         this.apiResponse(response);
         this.showError = false;

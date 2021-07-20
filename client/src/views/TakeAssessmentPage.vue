@@ -83,6 +83,14 @@ export default {
   box-shadow: 0px 5px 15px rgba(33, 31, 38, 0.05);
   border-radius: 8px;
 }
+
+.main-menu {
+  font-family: 'Lato';
+  font-weight: normal;
+  font-size: 16px;
+  color: #2B3C4E;
+}
+
 .dashboard-body-container {
   width: 80%;
   height: 120vh;

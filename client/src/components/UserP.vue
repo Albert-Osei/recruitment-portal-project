@@ -2,7 +2,7 @@
   <div id="app">
     <div class="profile-layout">
       <div class="profile-picture">
-        <img :src="getProfilePhoto()" alt="" />
+        <img src="../assets/profile.jpg" alt="" />
       </div>
       <div class="username">
         <p
@@ -36,10 +36,6 @@ export default {
 
   methods: {
     ...mapActions(["fetchProfile", "fetchOneApp"]),
-
-    getProfilePhoto() {
-      return "Profile/AL5.png";
-    },
   },
 
   async mounted() {

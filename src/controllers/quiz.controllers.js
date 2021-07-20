@@ -45,6 +45,15 @@ const updateQuiz = async (req, res, next) => {
     }
 };
 
+const getAnswers = async (req, res, next) => {
+    try {
+        const response = await QuizService.getAnswers();
+        return res.status(response.code).json(response);
+    } catch (error) {
+        next(error);
+    }
+}
+
 
 
 
@@ -52,4 +61,5 @@ module.exports = {
     getQuizes,
     addQuiz,
     updateQuiz,
+    getAnswers,
 };

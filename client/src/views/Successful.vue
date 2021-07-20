@@ -98,15 +98,14 @@ export default {
 .main-menu li {
   list-style-type: none;
   font-family: Lato;
-  font-style: normal;
-  font-weight: bold;
+  font-weight: normal;
   font-size: 16px;
-  line-height: 19px;
   color: #2b3c4e;
   padding: 10px;
 }
 a {
   text-decoration: none;
+  color: #2b3c4e;
 }
 .main-menu img {
   padding-right: 10px;
@@ -223,5 +222,6 @@ a {
   line-height: 19px;
   color: #ffffff;
   margin: 10px;
+  border: none;
 }
 </style>

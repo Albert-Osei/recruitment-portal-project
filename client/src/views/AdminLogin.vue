@@ -116,6 +116,7 @@ input {
   margin-bottom: 30px;
   outline: none;
   padding: 0 20px;
+  color: #FFFFFF;
 }
 
 .btn {

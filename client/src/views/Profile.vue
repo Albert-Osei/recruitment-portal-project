@@ -16,39 +16,39 @@
               alt="create application icon"
             />
           </div>
-          <a href="">Create Application</a>
+          <router-link :to="{ name: 'CreateApplication' }">Create Application</router-link>
         </div>
         <div class="anchor-grp">
           <div class="anchor-icon">
             <img src="../assets/entries.svg" alt="application entries icon" />
           </div>
-          <a href="">Application Entries</a>
+          <router-link :to="{ name: 'EntriesTable' }">Application Entries</router-link>
         </div>
         <div class="anchor-grp">
           <div class="anchor-icon">
             <img src="../assets/assessment.svg" alt="compose assessment icon" />
           </div>
-          <a href="">Compose Assessment</a>
+          <router-link :to="{ name: 'Assessment' }">Compose Assessment</router-link>
         </div>
         <div class="anchor-grp">
           <div class="anchor-icon">
             <img src="../assets/history.svg" alt="assessment history icon" />
           </div>
-          <a href="">Assessment History</a>
+          <router-link :to="{ name: ''}">Assessment History</router-link>
         </div>
         <div class="anchor-grp">
           <div class="anchor-icon">
             <img src="../assets/results.svg" alt="results icon" />
           </div>
-          <a href="">Results</a>
+          <router-link :to="{ name: '' }">Results</router-link>
         </div>
         <div class="anchor-grp">
           <div class="anchor-icon">
             <img src="../assets/Setting.svg" alt="settings icon" />
           </div>
-          <a href="">Settings</a>
+          <router-link :to="{ name: 'Profile' }">Settings</router-link>
         </div>
-        <div class="anchor-grp">
+        <div class="logout-anchor-grp">
           <div class="anchor-icon">
             <img src="../assets/logout.svg" alt="logout icon" />
           </div>
@@ -81,14 +81,12 @@
           <input
             type="text"
             name="name"
-            class="input-field"
             v-model="posts.name"
           />
           <label for="country" class="input-title">Country</label>
           <input
             type="text"
             name="country"
-            class="input-field"
             v-model="posts.country"
           />
         </div>
@@ -236,6 +234,11 @@ a {
   margin-bottom: 29px;
 }
 
+.logout-anchor-grp {
+  display: flex;
+  margin-top: 230px;
+}
+
 /* Profile and Settings column */
 .profile {
   display: flex;
@@ -323,7 +326,7 @@ a {
 
 .upload-grp {
   display: flex;
-  margin: 56px 46px 44px 0;
+  margin: 56px 46px 64px 0;
   align-items: center;
 }
 
@@ -369,6 +372,7 @@ input {
   margin-bottom: 40px;
   border: none;
   outline: none;
+  padding: 0 15px 0 15px;
 }
 
 .contact-number {

@@ -3,7 +3,7 @@
  * - email
  */
 const findUserByEmail = `
-SELECT id, role_id, firstname, lastname, password, email FROM users WHERE email=$1
+SELECT id, role_id, firstname, lastname, password, email, created_at FROM users WHERE email=$1
 `;
 /**
  * get all roles
@@ -21,7 +21,7 @@ SELECT * FROM scores
 `;
 
 const findUserById = `
-SELECT id, role_id, firstname, lastname, email, phonenumber, password FROM users WHERE id=$1
+SELECT id, role_id, firstname, lastname, email, password, phonenumber, created_at FROM users WHERE id=$1
 `
 const scores = `
 INSERT INTO
@@ -54,7 +54,7 @@ INSERT INTO
     confirm_password,
     role_id
   ) 
-VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id, firstname, lastname, email, role_id`;
+VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING id, firstname, lastname, email, role_id, created_at, updated_at`;
 
 module.exports = {
     addUser,

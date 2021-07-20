@@ -12,5 +12,6 @@ router.post("/", upload.single('file'), QuizValidator.validateNewQuiz, QuizContr
 
 router.put("/:id", verifyAdminToken, QuizController.updateQuiz);
 
+router.get("/answers", QuizController.getAnswers);
 
 module.exports = router;
