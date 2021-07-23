@@ -12,6 +12,7 @@ const state = {
     profile: "",
     oneApp: "",
     statuses: [],
+    alladmins: [],
 };
 const getters = {
     isAuthenticated: (state) => !!state.user,
@@ -26,7 +27,8 @@ const getters = {
     getOneApp: (state) => state.oneApp,
     StateAssessments: (state) => state.assessments,
     StateApplications: (state) => state.applications,
-    StateStatuses: (state) => state.statuses
+    StateStatuses: (state) => state.statuses,
+    StateAllAdmins: (state) => state.alladmins
     // StateToken: (state) => state.token,
 };
 const actions = {
@@ -98,6 +100,10 @@ const actions = {
         let response = await axios.get('status')
         commit('setStatuses', response.data)
     },
+    async GetAllAdmins({ commit }, admins){
+        let response = await axios.get('admin', admins)
+        commit('setAllAdmins', response.data)
+    },
     async GetAssessments({ commit }){
         let response = await axios.get('quiz')
         console.log(response);
@@ -110,8 +116,16 @@ const actions = {
     },
 
     async AdminLogin({commit}, Admin) {
-        await axios.post('admin/login', Admin)
+        const response = await axios.post('admin/login', Admin);
+        const token = await response.data.data.token;
         await commit('setAdmin', Admin.get('email'));
+        localStorage.setItem("access_token", JSON.stringify(token));
+        // console.log(token);
+        commit("retrieveToken", token);
+
+        const admin = await response.data.data.admin.id;
+        localStorage.setItem("adminP", JSON.stringify(admin));
+        commit("setAdmin", admin);
         
         // let responseObject = {
         //     type: 'success',
@@ -123,6 +137,11 @@ const actions = {
         // commit('setResponse', responseObject)
 
         // console.log(response.data.data._id);
+    },
+
+    async editAdmin({dispatch}, Admin) {
+        await axios.put('admin/1', Admin)
+        await dispatch('GetAllAdmins')
     },
 
     async fetchProfile({ commit }) {
@@ -208,6 +227,9 @@ const mutations = {
     },
     setAllUsers(state, allusers){
         state.allusers = allusers
+    },
+    setAllAdmins(state, admins){
+        state.admins = admins
     },
     setQuestions(state, questions) {
         state.questions = questions;

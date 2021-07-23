@@ -10,6 +10,7 @@ import AdminDashboard from '../views/AdminDashboard.vue'
 import EntriesTable from '../views/EntriesTable.vue'
 import History from '../views/History.vue'
 import Successful from '../views/Successful.vue'
+import Results from '../views/Results.vue'
 
 Vue.use(VueRouter)
 
@@ -117,6 +118,11 @@ const routes = [
     path: '/successful',
     name: 'Successful',
     component: Successful
+  },
+  {
+    path: '/results',
+    name: 'Results',
+    component: Results
   },
 ]
 

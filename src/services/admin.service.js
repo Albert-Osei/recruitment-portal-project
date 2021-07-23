@@ -2,12 +2,22 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const config = require("../config/env/index");
 const { runQuery } = require("../config/database.config");
-const { findAdminByEmail, addAdmin, getAdminRole, updateProfileQuery, findAdminById } = require("../queries/admin");
+const { findAdminByEmail, addAdmin, getAdminsQuery, getAdminRole, updateProfileQuery, findAdminById } = require("../queries/admin");
 
 
 const findAdmin = async (email) => {
     const admin= await runQuery(findAdminByEmail, [email]);
     return admin;
+};
+
+const getAdmins = async () => {
+    const admins = await runQuery(getAdminsQuery);
+    return {
+        status: "success",
+        message: "Admin details fetched successfully",
+        code: 200,
+        data: admins
+    };
 };
 
 const loginAdmin = async (body) => {
@@ -123,4 +133,5 @@ module.exports = {
     createAdmin,
     findAdmin,
     updateProfile,
+    getAdmins
 };

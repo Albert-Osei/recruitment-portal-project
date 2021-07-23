@@ -69,25 +69,28 @@
         <h2 class="profile-column-header">Profiles Setting</h2>
         <button class="profile-column-btn">Edit</button>
       </div>
-      <form @submit.prevent="update" method="put" class="profile-input">
+      <form @submit.prevent="update" enctype="multipart/form-data" class="profile-input">
         <div class="upload">
           <div class="upload-grp">
             <div class="upload-icon">
               <img src="" alt="" />
             </div>
-            <h3 class="upload-tag-text">Upload new image</h3>
+            <div class="upload-pic-btn">
+              <button class="upload-tag-text">Upload new image</button>
+              <input type="file" name="image_url" ref="file" @change="handleFileUpload">
+            </div>
           </div>
           <label for="name" class="input-title">Name</label>
           <input
             type="text"
             name="name"
-            v-model="posts.name"
+            id="input"
           />
           <label for="country" class="input-title">Country</label>
           <input
             type="text"
             name="country"
-            v-model="posts.country"
+            id="input"
           />
         </div>
         <div class="second-input">
@@ -98,27 +101,29 @@
             <p class="remove-text">Remove</p>
           </div>
           <div class="contact-inputs">
-            <div class="contact-email">
+            <!-- <div class="contact-email">
               <label for="email">Email</label>
-              <input type="text" name="email" class="contacts-field" v-model="posts.email"/>
-            </div>
+              <input type="text" name="email" class="contacts-field" id="input"/>
+            </div> -->
             <div class="contact-number">
-              <label for="phoneNumber">Phone number</label>
+              <label for="phonenumber">Phone number</label>
               <input
                 type="text"
-                name="phoneNumber"
+                name="phonenumber"
                 class="contacts-field"
-                v-model="posts.phoneNumber"
+                id="input"
               />
             </div>
           </div>
-          <label for="address">Address</label>
-          <input
-            type="text"
-            name="address"
-            class="address-field"
-            v-model="posts.address"
-          />
+          <div class="address-column">
+            <label for="address">Address</label>
+            <input
+              type="text"
+              name="address"
+              class="address-field"
+              id="input"
+            />
+          </div>
           <button type="submit" class="contacts-btn">Save</button>
         </div>
       </form>
@@ -127,31 +132,44 @@
 </template>
 
 <script>
-import Vue from "vue";
-import axios from "axios";
-import VueAxios from "vue-axios";
-Vue.use(VueAxios, axios);
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Profile",
+  components: {},
   data() {
     return {
-      posts: {
-        name: null,
-        country: null,
-        phonenumber: null,
-        address: null,
-      },
+      name: "",
+      phonenumber: "",
+      country: "",
+      address: "",
+      image_url: "",
     };
   },
+  computed: {
+    ...mapGetters({ admins: "StateAllAdmins", Admin: "StateAdmin" }),
+  },
   methods: {
-    update() {
-      this.axios
-        .put("http://localhost:9090/api/v1/admin/1", this.posts)
-        .then((result) => {
-          console.warn(result);
-        });
+    ...mapActions(["editAdmin", "GetAllAdmins"]),
+
+    handleFileUpload() {
+      this.image_url = this.$refs.file.files[0];
     },
+
+    update() {
+      let formData = new FormData();
+      formData.append("name", this.name);
+      formData.append("country", this.phonenumber);
+      formData.append("phonenumber", this.country);
+      formData.append("address", this.address);
+      formData.append("image_url", this.image_url);
+      this.editAdmin(formData);
+      this.name = "";
+      this.phonenumber = "";
+      this.country = "";
+      this.address = "";
+      this.image_url = "";
+    }
   },
 };
 </script>
@@ -270,7 +288,17 @@ a {
   margin-bottom: 43px;
 }
 
-.profile-btn,
+.profile-btn {
+  width: 188px;
+  height: 64px;
+  font-family: "Lato";
+  font-weight: normal;
+  font-size: 14px;
+  color: #333758;
+  border: none;
+  background: #ffffff;
+}
+
 .timer-btn {
   width: 188px;
   height: 64px;
@@ -278,6 +306,7 @@ a {
   font-weight: normal;
   font-size: 14px;
   color: #333758;
+  margin-left: 50px;
   border: none;
   background: #ffffff;
 }
@@ -290,7 +319,7 @@ a {
 .profile-column {
   display: flex;
   justify-content: space-between;
-  width: 724px;
+  width: 70%;
   border-bottom: 1px solid #f2f2f2;
   padding-bottom: 12px;
 }
@@ -338,14 +367,28 @@ a {
   margin-right: 32px;
 }
 
+.upload-pic-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.upload-pic-btn input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
 .upload-tag-text {
+  background-color: #ffffff;
+  border: none;
   height: 18px;
   font-family: "Lato";
   font-weight: normal;
   font-size: 15px;
   color: #333758;
   opacity: 0.5;
-  border-bottom: 1px solid #333758;
+  /* border-bottom: 1px solid #333758; */
 }
 
 .second-input {
@@ -365,8 +408,8 @@ label {
   opacity: 0.5;
 }
 
-input {
-  width: 215px;
+#input {
+  width: 340px;
   height: 54px;
   background: rgba(117, 87, 211, 0.1);
   margin-bottom: 40px;
@@ -378,17 +421,18 @@ input {
 .contact-number {
   display: flex;
   flex-direction: column;
+  margin-left: 45px;
 }
 
-.contact-email {
+/* .contact-email {
   display: flex;
   flex-direction: column;
-  margin-right: 39px;
-}
+  margin: 0 45px 0 45px;
+} */
 
 .remove-column {
   display: flex;
-  margin: 74px 0 62px 0;
+  margin: 74px 0 62px 45px;
 }
 
 .remove-icon {
@@ -409,6 +453,12 @@ input {
   color: #ff5722;
 }
 
+.address-column {
+  display: flex;
+  flex-direction: column;
+  margin-left: 45px;
+}
+
 .address-field {
   width: 469px;
   height: 54px;
@@ -416,8 +466,8 @@ input {
 }
 
 .contacts-btn {
-  width: 127px;
-  height: 38px;
+  width: 130px;
+  height: 40px;
   background: #7557d3;
   border-radius: 3px;
   border: none;
@@ -425,5 +475,6 @@ input {
   font-weight: normal;
   font-size: 15px;
   color: #ffffff;
+  margin-left: 100px;
 }
 </style>

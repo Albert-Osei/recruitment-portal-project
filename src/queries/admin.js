@@ -16,6 +16,11 @@ SELECT id, role_id, name, password, email, created_at FROM admins WHERE email=$1
 /**
  * get admin role
  */
+
+const getAdminsQuery = `
+SELECT * FROM admins
+`;
+
 const getAdminRole = `
 SELECT id, type FROM adminrole
 `;
@@ -55,4 +60,5 @@ module.exports = {
     getAdminRole,
     findAdminById,
     updateProfileQuery,
+    getAdminsQuery,
 };

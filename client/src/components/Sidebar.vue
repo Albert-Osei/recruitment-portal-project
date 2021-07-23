@@ -33,13 +33,13 @@
           <div class="anchor-icon">
             <img src="../assets/history.svg" alt="assessment history icon" />
           </div>
-          <router-link :to="{ name: ''}">Assessment History</router-link>
+          <router-link :to="{ name: 'History'}">Assessment History</router-link>
         </div>
         <div class="anchor-grp">
           <div class="anchor-icon">
             <img src="../assets/results.svg" alt="results icon" />
           </div>
-           <router-link :to="{ name: ''}">Results</router-link>
+           <router-link :to="{ name: 'Results'}">Results</router-link>
         </div>
         <div class="anchor-grp">
           <div class="anchor-icon">

@@ -4,33 +4,38 @@
       <Sidebar />
       <div class="entries-content">
         <div class="entries-caption">
-          <h2 class="entries-header">Assessment History</h2>
+          <h2 class="entries-header">Results</h2>
         </div>
         <div id="resp-table">
           <div id="resp-table-header">
-            <div class="table-header-cell">Batch</div>
-            <div class="table-header-cell">Date Composed</div>
+            <div class="table-header-cell">Name</div>
+            <div class="table-header-cell">Email</div>
             <div class="table-header-cell-new">
-              <p class="dob-text">No of Questions</p>
+              <p class="dob-text">DOB - Age</p>
             </div>
-            <div class="table-header-cell">Time Allocated</div>
-            <div class="table-header-cell">Status</div>
+            <div class="table-header-cell">Address</div>
+            <div class="table-header-cell">University</div>
+            <div class="table-header-cell-new">
+              <p class="dob-text">CGPA</p>
+            </div>
+            <div class="table-header-cell">Test Scores</div>
           </div>
           <div id="resp-table-body">
-            <div class="resp-table-row">
-              <div class="table-body-cell">Batch 1</div>
-              <div class="table-body-cell">12/06/2021</div>
-              <div class="table-body-cell">30</div>
-              <div class="table-body-cell">30 mins</div>
-              <div class="table-body-cell">Taken</div>
+            <div
+              class="resp-table-row"
+              v-for="(form, index) in forms"
+              :key="index"
+            >
+              <div class="table-body-cell">
+                {{ form.firstname + " " + form.lastname }}
+              </div>
+              <div class="table-body-cell">{{ form.email }}</div>
+              <div class="table-body-cell">{{ form.date_of_birth }}</div>
+              <div class="table-body-cell">{{ form.address }}</div>
+              <div class="table-body-cell">{{ form.university }}</div>
+              <div class="table-body-cell">{{ form.cgpa }}</div>
+              <div class="table-body-cell">{{ form.scores }}</div>
             </div>
-            <!-- <div class="resp-table-row">
-              <div class="table-body-cell">Batch 2</div>
-              <div class="table-body-cell">12/06/2021</div>
-              <div class="table-body-cell">30</div>
-              <div class="table-body-cell">30 mins</div>
-              <div class="table-body-cell">Taken</div>
-            </div> -->
           </div>
         </div>
       </div>
@@ -42,10 +47,25 @@
 import Sidebar from "../components/Sidebar.vue";
 
 export default {
-  name: "History",
+  name: "Results",
   components: {
     Sidebar,
   },
+  data() {
+    return {
+      items: [this.forms],
+      showModal: false,
+      singleEntry: {},
+    };
+  },
+  methods: {
+    openModal(id) {
+      this.showModal = true;
+      const singleForm = this.forms.find((item) => item.id === id);
+      this.singleEntry = singleForm;
+    },
+  },
+
   computed: {
     forms() {
       return this.$store.state.auth.forms.data;
