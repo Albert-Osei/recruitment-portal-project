@@ -116,16 +116,8 @@ const actions = {
     },
 
     async AdminLogin({commit}, Admin) {
-        const response = await axios.post('admin/login', Admin);
-        const token = await response.data.data.token;
+        await axios.post('admin/login', Admin);
         await commit('setAdmin', Admin.get('email'));
-        localStorage.setItem("access_token", JSON.stringify(token));
-        // console.log(token);
-        commit("retrieveToken", token);
-
-        const admin = await response.data.data.admin.id;
-        localStorage.setItem("adminP", JSON.stringify(admin));
-        commit("setAdmin", admin);
         
         // let responseObject = {
         //     type: 'success',
